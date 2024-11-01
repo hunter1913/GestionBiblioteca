@@ -54,6 +54,7 @@ public class PrestamosForma extends JFrame {
         buscarButton.addActionListener(e -> buscarPrestamoPorId());
         limpiarButton.addActionListener(e -> mostrarTodos());
         eliminarButton.addActionListener(e -> eliminarPrestamo());
+        menuPrincipalButton.addActionListener(e -> menuPrincipal());
     }
 
     private void createUIComponents() {
@@ -245,6 +246,14 @@ public class PrestamosForma extends JFrame {
     private void mostrarTodos(){
         limpiarFormulario();
         listarPrestamos();
+    }
+
+    private void menuPrincipal(){
+        dispose();
+        MenuForma menuForma = new MenuForma();
+        menuForma.iniciarForma();
+        menuForma.setVisible(true);
+
     }
 
 }
