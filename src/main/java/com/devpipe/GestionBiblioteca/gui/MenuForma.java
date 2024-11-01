@@ -7,8 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 
 @Component
@@ -16,7 +15,6 @@ public class MenuForma extends JFrame{
     private JPanel menuPrincipal;
     private JButton gestionDeSociosButton;
     private JButton librosButton;
-    private JButton button1;
     private String[] args = new String[0];
 
     @Autowired
