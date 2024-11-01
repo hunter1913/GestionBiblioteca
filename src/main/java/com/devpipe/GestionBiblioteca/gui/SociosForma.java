@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -62,8 +59,7 @@ public class SociosForma extends JFrame{
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        this.tablaModeloSocios = new DefaultTableModel(0, 5) {
+            this.tablaModeloSocios = new DefaultTableModel(0, 5) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

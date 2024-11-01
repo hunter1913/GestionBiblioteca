@@ -61,8 +61,7 @@ public class LibrosForma extends JFrame{
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        this.tablaModeloLibros = new DefaultTableModel(0, 75) {
+            this.tablaModeloLibros = new DefaultTableModel(0, 75) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

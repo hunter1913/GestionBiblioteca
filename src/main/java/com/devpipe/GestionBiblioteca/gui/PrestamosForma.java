@@ -57,8 +57,7 @@ public class PrestamosForma extends JFrame {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        this.tablaModeloPrestamos = new DefaultTableModel(0, 4) {
+            this.tablaModeloPrestamos = new DefaultTableModel(0, 4) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
