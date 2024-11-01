@@ -8,13 +8,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 
-
-
 @Component
 public class MenuForma extends JFrame{
     private JPanel menuPrincipal;
     private JButton gestionDeSociosButton;
     private JButton librosButton;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
     private String[] args = new String[0];
 
     @Autowired
