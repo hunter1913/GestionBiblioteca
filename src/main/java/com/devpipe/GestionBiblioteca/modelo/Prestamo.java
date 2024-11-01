@@ -16,14 +16,14 @@ public class Prestamo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_socio")
+
     private Integer idPrestamo;
     private Date fechaPrestamo ;
     private Date fechaDevolucion;
 
     private Integer id_socio;
     private Integer libroIdLibro;
-
+    private String disponibilidad;
     @ManyToOne
 //    @JoinColumn(name = "id_socio")
 ////    @OneToMany(targetEntity = Socio.class,cascade = CascadeType.ALL)

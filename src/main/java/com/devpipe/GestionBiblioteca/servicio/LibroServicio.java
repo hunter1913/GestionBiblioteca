@@ -38,4 +38,10 @@ public class LibroServicio implements ILibroServicio{
     public void eliminarLibro(Libro libro) {
     libroRepositorio.delete(libro);
     }
+
+    @Override
+    public List buscarLibroPorDisponibilidad(String disponibilidad) {
+        List<Libro> libros = libroRepositorio.buscarLibroPorDisponibilidad(disponibilidad);
+        return libros;
+    }
 }

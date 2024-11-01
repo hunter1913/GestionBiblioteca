@@ -4,7 +4,9 @@ import com.devpipe.GestionBiblioteca.modelo.Libro;
 import com.devpipe.GestionBiblioteca.modelo.Prestamo;
 import com.devpipe.GestionBiblioteca.modelo.Socio;
 import com.devpipe.GestionBiblioteca.servicio.*;
+import jakarta.persistence.criteria.Join;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +14,7 @@ import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Component
@@ -58,13 +61,13 @@ public class PrestamosForma extends JFrame {
     }
 
     private void createUIComponents() {
-            this.tablaModeloPrestamos = new DefaultTableModel(0, 4) {
+            this.tablaModeloPrestamos = new DefaultTableModel(0, 5) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Fecha Devolucion ","Socio", "Libro"};
+            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Fecha Devolucion ","Socio", "Libro", "Disponibilidad"};
             this.tablaModeloPrestamos.setColumnIdentifiers(cabeceros);
             this.prestamosTabla = new JTable(tablaModeloPrestamos);
             //Restringimos la seleccion de la tabla a un solo registro
@@ -77,16 +80,27 @@ public class PrestamosForma extends JFrame {
     private void listarPrestamos(){
         this.tablaModeloPrestamos.setRowCount(0);
         var prestamos = this.prestamoServicio.listarPrestamo();
+        String disponibilidad = "Si";
+        List<Libro> libros;
+        libros=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
         prestamos.forEach(prestamo -> {
-            Object[] renglonPrestamo = {
-                    prestamo.getIdPrestamo(),
-                    formatoFecha(prestamo.getFechaPrestamo()),
-                    formatoFecha(prestamo.getFechaDevolucion()),
-                    prestamo.getId_socio(),
-                    prestamo.getLibroIdLibro(),
-            };
-                this.tablaModeloPrestamos.addRow(renglonPrestamo);
+            libros.forEach(libro -> {
+                if (prestamo.getLibroIdLibro().equals(libro.getIdLibro())) {
+                    Object[] renglonPrestamo = {
+                            prestamo.getIdPrestamo(),
+                            formatoFecha(prestamo.getFechaPrestamo()),
+                            formatoFecha(prestamo.getFechaDevolucion()),
+                            prestamo.getId_socio(),
+                            prestamo.getLibroIdLibro(),
+                            libro.getDisponibilidad(),
+                    };
+                    this.tablaModeloPrestamos.addRow(renglonPrestamo);
+                }
+
+            });
+
         });
+
 
     }
 
@@ -170,13 +184,24 @@ public class PrestamosForma extends JFrame {
         prestamo.setFechaDevolucion(fechaDevolucion);
         prestamo.setId_socio(codigoSocio);
         prestamo.setLibroIdLibro(codigoLibro);
-        this.prestamoServicio.guardarPrestamo(prestamo);
-        if  (this.idPrestamo == null)
-            mostrarMensaje("Se agrego el nuevo prestamo ");
-        else
-            mostrarMensaje("Se actualizo el prestamo");
-        limpiarFormulario();
-        listarPrestamos();
+
+        List<Libro> libros;
+        libros = libroServicio.listarLibros();
+
+        libros.forEach(libro -> {
+            if (libro.getIdLibro().equals(codigoLibro) && libro.getDisponibilidad().equals("Si")) {
+
+                this.prestamoServicio.guardarPrestamo(prestamo);
+
+                if  (this.idPrestamo == null)
+                    mostrarMensaje("Se agrego el nuevo prestamo ");
+                else
+                    mostrarMensaje("Se actualizo el prestamo");
+                limpiarFormulario();
+                listarPrestamos();
+            }
+        });
+
     }
 
     private void cargarPrestamoSeleccionado(){
@@ -254,6 +279,13 @@ public class PrestamosForma extends JFrame {
         menuForma.iniciarForma();
         menuForma.setVisible(true);
 
+    }
+
+    public static Specification<Libro> libroDisponibilidad(String disponibilidad) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Prestamo, Libro> prestamoLibro = root.join("idLibro");
+            return criteriaBuilder.equal(prestamoLibro.get("disponibilidad"), disponibilidad);
+        };
     }
 
 }
