@@ -51,6 +51,7 @@ public class LibrosForma extends JFrame{
         limpiarButton.addActionListener(e -> limpiarFormulario());
         eliminarButton.addActionListener(e -> eliminarLibro());
         mostrarTodosButton.addActionListener(e -> mostrarTodos());
+        menuPrincipalButton.addActionListener(e -> menuPrincipal());
     }
 
     private void iniciarForma(){
@@ -206,5 +207,13 @@ public class LibrosForma extends JFrame{
     private void mostrarTodos(){
     limpiarFormulario();
     listarLibros();
+    }
+
+    private void menuPrincipal(){
+        dispose();
+        MenuForma menuForma = new MenuForma();
+        menuForma.iniciarForma();
+        menuForma.setVisible(true);
+
     }
 }
