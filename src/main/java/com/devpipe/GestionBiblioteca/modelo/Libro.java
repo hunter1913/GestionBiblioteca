@@ -21,7 +21,5 @@ public class Libro {
     private String anoPublicacion;
     private Integer numeroPaginas;
     private String isbn;
-
-
-
+    private String disponibilidad;
 }

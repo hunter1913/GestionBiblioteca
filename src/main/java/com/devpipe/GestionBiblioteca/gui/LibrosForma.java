@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -62,14 +60,14 @@ public class LibrosForma extends JFrame{
     }
 
     private void createUIComponents() {
-            this.tablaModeloLibros = new DefaultTableModel(0, 75) {
+            this.tablaModeloLibros = new DefaultTableModel(0, 8) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN"};
+        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Disponibilidad"};
         this.tablaModeloLibros.setColumnIdentifiers(cabeceros);
         this.librosTabla = new JTable(tablaModeloLibros);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -80,8 +78,8 @@ public class LibrosForma extends JFrame{
 
     private void listarLibros(){
         this.tablaModeloLibros.setRowCount(0);
-        var clientes = this.libroServicio.listarLibros();
-        clientes.forEach(libro -> {
+        var libros = this.libroServicio.listarLibros();
+        libros.forEach(libro -> {
             Object[] renglonLibro = {
                     libro.getIdLibro(),
                     libro.getTitulo(),
@@ -91,12 +89,14 @@ public class LibrosForma extends JFrame{
                     libro.getAnoPublicacion(),
                     libro.getNumeroPaginas(),
                     libro.getIsbn(),
+                    libro.getDisponibilidad()
             };
             this.tablaModeloLibros.addRow(renglonLibro);
         });
     }
 
     private void guardarLibro() {
+
         if (isbnTexto.getText().equals("")) {
             mostrarMensaje("Proporciona un ISBN");
             isbnTexto.requestFocusInWindow();
@@ -108,6 +108,7 @@ public class LibrosForma extends JFrame{
             return;
         }
          //Recuperar los valores del formulario
+
         var titulo = tituloTexto.getText();
         var autor = autorTexto.getText();
         var genero = generoTexto.getText();
@@ -115,8 +116,8 @@ public class LibrosForma extends JFrame{
         var anoPublicacion = anoTexto.getText();
         var paginas = Integer.parseInt(numeroPaginasTexto.getText());
         var isbn = isbnTexto.getText();
-
-        var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn);
+        var disponibilidad = "Si";
+        var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidad);
         this.libroServicio.guardarLibro(libro);
 
       if  (this.idLibro == null)
