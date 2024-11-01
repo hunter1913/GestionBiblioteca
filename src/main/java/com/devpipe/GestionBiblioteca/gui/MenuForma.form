@@ -61,8 +61,8 @@
               <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <icon value="icons/libro2.png"/>
-              <text value="libros"/>
+              <icon value="icons/libro.png"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="7f372" class="javax.swing.JLabel">
@@ -96,7 +96,7 @@
             </constraints>
             <properties>
               <icon value="icons/prestamos.png"/>
-              <text value="Button"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="72640" class="javax.swing.JLabel">
@@ -115,7 +115,7 @@
             </constraints>
             <properties>
               <icon value="icons/devoluciones.png"/>
-              <text value="Button"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="f4081" class="javax.swing.JLabel">
@@ -134,7 +134,7 @@
             </constraints>
             <properties>
               <icon value="icons/multas.png"/>
-              <text value="Button"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="c0068" class="javax.swing.JLabel">
