@@ -20,7 +20,6 @@ public class Prestamo {
     private Integer idPrestamo;
     private Date fechaPrestamo ;
     private Date fechaDevolucion;
-
     private Integer id_socio;
     private Integer libroIdLibro;
 
