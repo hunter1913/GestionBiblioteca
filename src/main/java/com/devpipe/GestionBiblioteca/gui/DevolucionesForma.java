@@ -1,16 +1,13 @@
 package com.devpipe.GestionBiblioteca.gui;
 
-import com.devpipe.GestionBiblioteca.servicio.DevolucionServicio;
-import com.devpipe.GestionBiblioteca.servicio.IDevolucionServicio;
-import com.devpipe.GestionBiblioteca.servicio.IPrestamoServicio;
-import com.devpipe.GestionBiblioteca.servicio.PrestamoServicio;
+import com.devpipe.GestionBiblioteca.servicio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @Component
 public class DevolucionesForma extends JFrame{
@@ -18,22 +15,37 @@ public class DevolucionesForma extends JFrame{
     private JPanel devolucionesPrincipal;
     private JButton buscarButton;
     private JButton menuPrinciapalButton;
+    private JButton actualizarButton;
+    private JButton devolverLibroButton;
     private DefaultTableModel tablaModeloDevoluciones;
     private IDevolucionServicio devolucionServicio;
     private IPrestamoServicio prestamoServicio;
+    private ILibroServicio libroServicio;
     private Integer idDevolucion;
     private Integer idPrestamo;
+    private Integer idLibro;
+    private Integer idSocio;
     private PrestamosForma prestamosForma;
 
 
     @Autowired
-    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma){
+    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma, LibroServicio libroServicio){
         this.devolucionServicio = devolucionServicio;
         this.prestamoServicio = prestamoServicio;
         this.prestamosForma = prestamosForma;
+        this.libroServicio = libroServicio;
         iniciarForma();
         menuPrinciapalButton.addActionListener(e -> menuPrincipal());
         buscarButton.addActionListener(e -> buscarPrestamoPorId());
+        actualizarButton.addActionListener(e -> mostrarTodos());
+        devolverLibroButton.addActionListener(e -> devolverLibro());
+        prestamosDevolucionesTabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                cargarPrestamoSeleccionado();
+            }
+        });
     }
 
     private void createUIComponents() {
@@ -105,7 +117,39 @@ public class DevolucionesForma extends JFrame{
     private void limpiarFormulario(){
         //Limpiamos el id del socio seleccionado
         this.idDevolucion = null;
+        this.idPrestamo = null;
+        this.idLibro = null;
+        this.idSocio = null;
         //Desleccionamos el registro seleccionado de la tabla
         this.prestamosDevolucionesTabla.getSelectionModel().clearSelection();
+    }
+
+    private void mostrarTodos(){
+        limpiarFormulario();
+        listarPrestamos();
+    }
+
+    private void devolverLibro(){
+           var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+           prestamoServicio.eliminarPrestamo(prestamo);
+           this.idLibro = prestamo.getLibroIdLibro();
+           var libro = libroServicio.buscarLibroPorId(idLibro);
+           var cantidad = libro.getCantidad();
+           cantidad = cantidad +1;
+           libro.setCantidad(cantidad);
+           libroServicio.guardarLibro(libro);
+            mostrarTodos();
+           mostrarMensaje("Devolucion exitosa");
+
+    }
+
+    private void cargarPrestamoSeleccionado(){
+        var renglon = prestamosDevolucionesTabla.getSelectedRow();
+        if (renglon != -1); // significa que no se selecciono ningun registro
+        var id = prestamosDevolucionesTabla.getModel().getValueAt(renglon, 0).toString();
+        this.idPrestamo = Integer.parseInt(id);
+        var prestamo = prestamoServicio.buscarPrestamoPorId(idPrestamo);
+        this.idLibro = prestamo.getLibroIdLibro();
+        this.idSocio = prestamo.getId_socio();
     }
 }
