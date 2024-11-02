@@ -128,6 +128,8 @@ public class PrestamosForma extends JFrame {
                 if (libro1.getIdLibro().equals(codigoLibro)) {
                       this.confirmacion = true;
                       guardarPrestamo();
+                    limpiarFormulario();
+                    listarPrestamos();
                 }
             });
             if (this.confirmacion == false){
@@ -188,6 +190,8 @@ public class PrestamosForma extends JFrame {
         prestamo.setId_socio(codigoSocio);
         prestamo.setLibroIdLibro(codigoLibro);
         Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
+
+        this.prestamoServicio.guardarPrestamo(prestamo);
         Integer cantidad = libro.getCantidad();
         cantidad = cantidad -1;
         libro.setCantidad(cantidad);
@@ -195,7 +199,6 @@ public class PrestamosForma extends JFrame {
             libro.setDisponibilidad("No");
         }
         libroServicio.guardarLibro(libro);
-        this.prestamoServicio.guardarPrestamo(prestamo);
         if  (this.idPrestamo == null)
             mostrarMensaje("Se agrego el nuevo prestamo ");
         else
@@ -215,20 +218,13 @@ public class PrestamosForma extends JFrame {
         this.fechaDevoluTexto.setText(fechaDevolucion);
 
         Prestamo prestamo = prestamoServicio.buscarPrestamoPorId(idPrestamo);
-        Integer updatecodigoSocio = prestamo.getId_socio();
-        String codigoCadena = String.valueOf(updatecodigoSocio);
-//        var codigoS = prestamosTabla.getModel().getValueAt(renglon, 3).toString();
-        this.codigoSocioTexto.setText(codigoCadena);
+        Integer updateCodigoSocio = prestamo.getId_socio();
+        String codigoSocioCadena = String.valueOf(updateCodigoSocio);
 
-//        Socio socio = socioServicio.buscarSocioPorId(codigoSocio);
-
-
-
-//        var codigoSocio = prestamosTabla.getModel().getValueAt(renglon, 3).toString();
-//        this.codigoSocioTexto.setText(codigoSocio);
-//        var codigoLibro = prestamosTabla.getModel().getValueAt(renglon, 4).toString();
-//        this.codigoLibroTexto.setText(codigoLibro);
-
+        this.codigoSocioTexto.setText(codigoSocioCadena);
+        Integer updateCodigoLibro = prestamo.getLibroIdLibro();
+        String codigoLibroCadena = String.valueOf(updateCodigoLibro);
+        this.codigoLibroTexto.setText(codigoLibroCadena);
     }
 
     private void limpiarFormulario(){

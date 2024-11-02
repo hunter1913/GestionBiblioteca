@@ -153,7 +153,7 @@ public class LibrosForma extends JFrame{
         this.numeroPaginasTexto.setText(numeroPaginas);
         var isbn = librosTabla.getModel().getValueAt(renglon, 7).toString();
         this.isbnTexto.setText(isbn);
-        var cantidad = librosTabla.getModel().getValueAt(renglon, 8).toString();
+        var cantidad = librosTabla.getModel().getValueAt(renglon, 9).toString();
         this.cantidadTexto.setText(cantidad);
 
     }
