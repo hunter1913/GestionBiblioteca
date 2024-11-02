@@ -33,7 +33,7 @@ public class PrestamosForma extends JFrame {
     private Integer idPrestamo;
     ISocioServicio socioServicio;
     ILibroServicio libroServicio;
-
+    boolean confirmacion = false;
 
     @Autowired
     public PrestamosForma(PrestamoServicio prestamoServicio, SocioServicio socioServicio, LibroServicio libroservicio) {
@@ -126,10 +126,14 @@ public class PrestamosForma extends JFrame {
             librosDisponibles=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
             librosDisponibles.forEach(libro1 -> {
                 if (libro1.getIdLibro().equals(codigoLibro)) {
+                      this.confirmacion = true;
                       guardarPrestamo();
-                }else
-                    mostrarMensaje("Libro no disponible");
+                }
             });
+            if (this.confirmacion == false){
+                mostrarMensaje("Libro no disponible");
+            }
+
         }else
             if (socio == null){
                 mostrarMensaje("Socio no existente, ingrese un socio valido");
