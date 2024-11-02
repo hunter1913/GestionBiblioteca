@@ -20,16 +20,17 @@ public class DevolucionServicio implements IDevolucioneServicio{
 
     @Override
     public Devolucion buscarDevolucionesPorId(Integer IdDevolucion) {
-        return null;
+        Devolucion devolucion = devolucionRepositorio.findById(IdDevolucion).orElse(null);
+        return devolucion;
     }
 
     @Override
     public void guardarDevolucion(Devolucion devolucion) {
-
+        devolucionRepositorio.save(devolucion);
     }
 
     @Override
-    public void eliminarDevolucion(Devolucion devoluciones) {
-
+    public void eliminarDevolucion(Devolucion devolucion) {
+    devolucionRepositorio.delete(devolucion);
     }
 }

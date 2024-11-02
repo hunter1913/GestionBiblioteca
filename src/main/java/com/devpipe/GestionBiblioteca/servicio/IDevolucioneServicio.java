@@ -12,5 +12,5 @@ public interface IDevolucioneServicio {
 
     public void guardarDevolucion(Devolucion devolucion);
 
-    public void eliminarDevolucion(Devolucion devoluciones);
+    public void eliminarDevolucion(Devolucion devolucion);
 }
