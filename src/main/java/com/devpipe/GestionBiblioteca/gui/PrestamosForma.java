@@ -4,9 +4,7 @@ import com.devpipe.GestionBiblioteca.modelo.Libro;
 import com.devpipe.GestionBiblioteca.modelo.Prestamo;
 import com.devpipe.GestionBiblioteca.modelo.Socio;
 import com.devpipe.GestionBiblioteca.servicio.*;
-import jakarta.persistence.criteria.Join;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -122,16 +120,13 @@ public class PrestamosForma extends JFrame {
 
         if (socio != null && libro != null){
             String disponibilidad = "Si";
-            List<Libro> libros;
-            libros=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
-            libros.forEach(libro1 -> {
+            List<Libro> librosDisponibles;
+            librosDisponibles=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
+            librosDisponibles.forEach(libro1 -> {
                 if (libro1.getIdLibro().equals(codigoLibro)) {
-                                           guardarPrestamo();
-                }else
-                    mostrarMensaje("Libro no disponible");
+                      guardarPrestamo();
+                }
             });
-
-
         }else
             if (socio == null){
                 mostrarMensaje("Socio no existente, ingrese un socio valido");
@@ -186,24 +181,16 @@ public class PrestamosForma extends JFrame {
         prestamo.setFechaDevolucion(fechaDevolucion);
         prestamo.setId_socio(codigoSocio);
         prestamo.setLibroIdLibro(codigoLibro);
-
-        List<Libro> libros;
-        libros = libroServicio.listarLibros();
-
-        libros.forEach(libro -> {
-            if (libro.getIdLibro().equals(codigoLibro) && libro.getDisponibilidad().equals("Si")) {
-
-                this.prestamoServicio.guardarPrestamo(prestamo);
-
-                if  (this.idPrestamo == null)
-                    mostrarMensaje("Se agrego el nuevo prestamo ");
-                else
-                    mostrarMensaje("Se actualizo el prestamo");
+        Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
+        libro.setDisponibilidad("No");
+        libroServicio.guardarLibro(libro);
+        this.prestamoServicio.guardarPrestamo(prestamo);
+        if  (this.idPrestamo == null)
+            mostrarMensaje("Se agrego el nuevo prestamo ");
+        else
+            mostrarMensaje("Se actualizo el prestamo");
                 limpiarFormulario();
                 listarPrestamos();
-            }
-        });
-
     }
 
     private void cargarPrestamoSeleccionado(){

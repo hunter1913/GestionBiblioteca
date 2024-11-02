@@ -16,5 +16,4 @@ public interface ILibroServicio {
 
     public List<Libro> buscarLibroPorDisponibilidad(String disponinbilidad);
 
-
 }
