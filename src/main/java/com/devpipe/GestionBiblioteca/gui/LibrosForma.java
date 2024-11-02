@@ -29,6 +29,7 @@ public class LibrosForma extends JFrame{
     private JButton limpiarButton;
     private JButton menuPrincipalButton;
     private JButton mostrarTodosButton;
+    private JTextField cantidadTexto;
     ILibroServicio libroServicio;
     private DefaultTableModel tablaModeloLibros;
     private Integer idLibro;
@@ -60,14 +61,14 @@ public class LibrosForma extends JFrame{
     }
 
     private void createUIComponents() {
-            this.tablaModeloLibros = new DefaultTableModel(0, 8) {
+            this.tablaModeloLibros = new DefaultTableModel(0, 9) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Disponibilidad"};
+        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Disponibilidad", "Total Libros"};
         this.tablaModeloLibros.setColumnIdentifiers(cabeceros);
         this.librosTabla = new JTable(tablaModeloLibros);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -89,7 +90,8 @@ public class LibrosForma extends JFrame{
                     libro.getAnoPublicacion(),
                     libro.getNumeroPaginas(),
                     libro.getIsbn(),
-                    libro.getDisponibilidad()
+                    libro.getDisponibilidad(),
+                    libro.getCantidad(),
             };
             this.tablaModeloLibros.addRow(renglonLibro);
         });
@@ -116,10 +118,14 @@ public class LibrosForma extends JFrame{
         var anoPublicacion = anoTexto.getText();
         var paginas = Integer.parseInt(numeroPaginasTexto.getText());
         var isbn = isbnTexto.getText();
-        var disponibilidad = "Si";
-        var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidad);
-        this.libroServicio.guardarLibro(libro);
 
+        var cantidad = Integer.parseInt(cantidadTexto.getText());
+        if (cantidad > 0){
+            var disponibilidad = "Si";
+            var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidad, cantidad);
+            this.libroServicio.guardarLibro(libro);
+        }else
+            mostrarMensaje("Cantidad debe ser mayor a 0");
       if  (this.idLibro == null)
             mostrarMensaje("Se agrego el nuevo libro ");
        else
@@ -147,6 +153,8 @@ public class LibrosForma extends JFrame{
         this.numeroPaginasTexto.setText(numeroPaginas);
         var isbn = librosTabla.getModel().getValueAt(renglon, 7).toString();
         this.isbnTexto.setText(isbn);
+        var cantidad = librosTabla.getModel().getValueAt(renglon, 8).toString();
+        this.cantidadTexto.setText(cantidad);
 
     }
     private void eliminarLibro(){
@@ -199,6 +207,7 @@ public class LibrosForma extends JFrame{
         anoTexto.setText("");
         numeroPaginasTexto.setText("");
         isbnTexto.setText("");
+        cantidadTexto.setText("");
         //Limpiamos el id del socio seleccionado
         this.idLibro = null;
         //Desleccionamos el registro seleccionado de la tabla

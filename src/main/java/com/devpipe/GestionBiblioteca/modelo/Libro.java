@@ -22,4 +22,5 @@ public class Libro {
     private Integer numeroPaginas;
     private String isbn;
     private String disponibilidad;
+    private Integer cantidad;
 }
