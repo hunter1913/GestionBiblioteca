@@ -289,8 +289,7 @@ public class PrestamosForma extends JFrame {
 
     }
 
-    private String cambiarIdPorNombreSocio(Integer id){
-//        Integer idSocio = id;
+    public String cambiarIdPorNombreSocio(Integer id){
         Socio socio = socioServicio.buscarSocioPorId(id);
         String nombre = socio.getNombre();
         String apellido = socio.getApellido();
@@ -298,8 +297,7 @@ public class PrestamosForma extends JFrame {
         return nombreCompleto;
     }
 
-    private String cambiarIdPorNombreLibro(Integer id){
-//        Integer idLibro = id;
+    public String cambiarIdPorNombreLibro(Integer id){
         Libro libro = libroServicio.buscarLibroPorId(id);
         String titulo = libro.getTitulo();
         return  titulo;
