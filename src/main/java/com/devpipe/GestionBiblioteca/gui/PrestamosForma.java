@@ -133,7 +133,6 @@ public class PrestamosForma extends JFrame {
             if (this.confirmacion == false){
                 mostrarMensaje("Libro no disponible");
             }
-
         }else
             if (socio == null){
                 mostrarMensaje("Socio no existente, ingrese un socio valido");
