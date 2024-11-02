@@ -125,7 +125,8 @@ public class PrestamosForma extends JFrame {
             librosDisponibles.forEach(libro1 -> {
                 if (libro1.getIdLibro().equals(codigoLibro)) {
                       guardarPrestamo();
-                }
+                }else
+                    mostrarMensaje("Libro no disponible");
             });
         }else
             if (socio == null){
