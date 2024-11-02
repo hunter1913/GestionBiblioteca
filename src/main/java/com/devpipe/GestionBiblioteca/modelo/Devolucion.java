@@ -3,6 +3,8 @@ package com.devpipe.GestionBiblioteca.modelo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,6 +17,7 @@ public class Devolucion {
     private Integer idDevolucion;
     private Integer idPrestamo;
     private Integer idLibro;
+    private Date fechaDevolucionReal;
 //    @ManyToOne
 //    private Prestamo prestamo;
 //    @ManyToOne

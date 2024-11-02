@@ -138,7 +138,10 @@ public class DevolucionesForma extends JFrame{
            cantidad = cantidad +1;
            libro.setCantidad(cantidad);
            libroServicio.guardarLibro(libro);
-            mostrarTodos();
+
+
+
+           mostrarTodos();
            mostrarMensaje("Devolucion exitosa");
 
     }
