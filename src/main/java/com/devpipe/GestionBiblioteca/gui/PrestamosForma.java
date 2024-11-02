@@ -85,8 +85,9 @@ public class PrestamosForma extends JFrame {
                             formatoFecha(prestamo.getFechaPrestamo()),
                             formatoFecha(prestamo.getFechaDevolucion()),
                             cambiarIdPorNombreSocio(prestamo.getId_socio()),
+                            cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
 //                            prestamo.getId_socio(),
-                            prestamo.getLibroIdLibro(),
+//                            prestamo.getLibroIdLibro(),
                             };
                     this.tablaModeloPrestamos.addRow(renglonPrestamo);
         });
@@ -279,6 +280,13 @@ public class PrestamosForma extends JFrame {
         String apellido = socio.getApellido();
         String nombreCompleto = nombre + " " + apellido;
         return nombreCompleto;
+    }
+
+    private String cambiarIdPorNombreLibro(Integer id){
+        Integer idLibro = id;
+        Libro libro = libroServicio.buscarLibroPorId(id);
+        String titulo = libro.getTitulo();
+        return  titulo;
     }
 }
 
