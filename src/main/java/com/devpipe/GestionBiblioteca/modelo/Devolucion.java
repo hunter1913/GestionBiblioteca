@@ -15,9 +15,9 @@ public class Devolucion {
     private Integer idDevolucion;
     private Integer idPrestamo;
     private Integer idLibro;
-    @ManyToOne
-    private Prestamo prestamo;
-    @ManyToOne
-    private Libro libro;
+//    @ManyToOne
+//    private Prestamo prestamo;
+//    @ManyToOne
+//    private Libro libro;
 
 }

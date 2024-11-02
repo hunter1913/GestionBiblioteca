@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class DevolucionServicio implements IDevolucioneServicio{
+public class DevolucionServicio implements IDevolucionServicio {
     @Autowired
     private DevolucionRepositorio devolucionRepositorio;
 

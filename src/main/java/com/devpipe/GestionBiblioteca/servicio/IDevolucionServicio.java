@@ -4,7 +4,7 @@ import com.devpipe.GestionBiblioteca.modelo.Devolucion;
 
 import java.util.List;
 
-public interface IDevolucioneServicio {
+public interface IDevolucionServicio {
 
     public List<Devolucion> listarDevoluciones();
 
