@@ -23,10 +23,10 @@ public class Prestamo {
     private Integer id_socio;
     private Integer libroIdLibro;
 
-    @ManyToOne
+//    @ManyToOne
 //    @JoinColumn(name = "id_socio")
 ////    @OneToMany(targetEntity = Socio.class,cascade = CascadeType.ALL)
 ////    @JoinColumn(name = "id_prestamo")
-    private Socio socio;
+//    private Socio socio;
 
 }
