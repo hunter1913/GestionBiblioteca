@@ -80,25 +80,16 @@ public class PrestamosForma extends JFrame {
     private void listarPrestamos(){
         this.tablaModeloPrestamos.setRowCount(0);
         var prestamos = this.prestamoServicio.listarPrestamo();
-        String disponibilidad = "Si";
-        List<Libro> libros;
-        libros=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
+
         prestamos.forEach(prestamo -> {
-            libros.forEach(libro -> {
-                if (prestamo.getLibroIdLibro().equals(libro.getIdLibro())) {
-                    Object[] renglonPrestamo = {
+            Object[] renglonPrestamo = {
                             prestamo.getIdPrestamo(),
                             formatoFecha(prestamo.getFechaPrestamo()),
                             formatoFecha(prestamo.getFechaDevolucion()),
                             prestamo.getId_socio(),
                             prestamo.getLibroIdLibro(),
-                            libro.getDisponibilidad(),
-                    };
+                            };
                     this.tablaModeloPrestamos.addRow(renglonPrestamo);
-                }
-
-            });
-
         });
 
 
@@ -128,8 +119,19 @@ public class PrestamosForma extends JFrame {
         Integer codigoLibro = Integer.parseInt(codigoLibroTexto.getText());
         Socio socio = socioServicio.buscarSocioPorId(codigoSocio);
         Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
+
         if (socio != null && libro != null){
-                    guardarPrestamo();
+            String disponibilidad = "Si";
+            List<Libro> libros;
+            libros=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
+            libros.forEach(libro1 -> {
+                if (libro1.getIdLibro().equals(codigoLibro)) {
+                                           guardarPrestamo();
+                }else
+                    mostrarMensaje("Libro no disponible");
+            });
+
+
         }else
             if (socio == null){
                 mostrarMensaje("Socio no existente, ingrese un socio valido");
@@ -280,13 +282,5 @@ public class PrestamosForma extends JFrame {
         menuForma.setVisible(true);
 
     }
-
-    public static Specification<Libro> libroDisponibilidad(String disponibilidad) {
-        return (root, query, criteriaBuilder) -> {
-            Join<Prestamo, Libro> prestamoLibro = root.join("idLibro");
-            return criteriaBuilder.equal(prestamoLibro.get("disponibilidad"), disponibilidad);
-        };
-    }
-
 }
 
