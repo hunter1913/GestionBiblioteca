@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Devoluciones {
+public class Devolucion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDevolucion;

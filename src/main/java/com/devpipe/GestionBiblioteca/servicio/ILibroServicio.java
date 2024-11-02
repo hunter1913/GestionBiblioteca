@@ -1,7 +1,7 @@
 package com.devpipe.GestionBiblioteca.servicio;
 
 import com.devpipe.GestionBiblioteca.modelo.Libro;
-import com.devpipe.GestionBiblioteca.modelo.Socio;
+
 
 import java.util.List;
 
