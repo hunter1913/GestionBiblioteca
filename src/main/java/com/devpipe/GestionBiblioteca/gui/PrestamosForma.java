@@ -189,14 +189,11 @@ public class PrestamosForma extends JFrame {
         prestamo.setLibroIdLibro(codigoLibro);
         Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
         Integer cantidad = libro.getCantidad();
-
         cantidad = cantidad -1;
         libro.setCantidad(cantidad);
-
         if(cantidad <= 0){
             libro.setDisponibilidad("No");
         }
-
         libroServicio.guardarLibro(libro);
         this.prestamoServicio.guardarPrestamo(prestamo);
         if  (this.idPrestamo == null)
@@ -216,10 +213,22 @@ public class PrestamosForma extends JFrame {
         this.fechaPrestamoTexto.setText(fechaPrestamo);
         var fechaDevolucion = prestamosTabla.getModel().getValueAt(renglon, 2).toString();
         this.fechaDevoluTexto.setText(fechaDevolucion);
-        var codigoSocio = prestamosTabla.getModel().getValueAt(renglon, 3).toString();
-        this.codigoSocioTexto.setText(codigoSocio);
-        var codigoLibro = prestamosTabla.getModel().getValueAt(renglon, 4).toString();
-        this.codigoLibroTexto.setText(codigoLibro);
+
+        Prestamo prestamo = prestamoServicio.buscarPrestamoPorId(idPrestamo);
+        Integer updatecodigoSocio = prestamo.getId_socio();
+        String codigoCadena = String.valueOf(updatecodigoSocio);
+//        var codigoS = prestamosTabla.getModel().getValueAt(renglon, 3).toString();
+        this.codigoSocioTexto.setText(codigoCadena);
+
+//        Socio socio = socioServicio.buscarSocioPorId(codigoSocio);
+
+
+
+//        var codigoSocio = prestamosTabla.getModel().getValueAt(renglon, 3).toString();
+//        this.codigoSocioTexto.setText(codigoSocio);
+//        var codigoLibro = prestamosTabla.getModel().getValueAt(renglon, 4).toString();
+//        this.codigoLibroTexto.setText(codigoLibro);
+
     }
 
     private void limpiarFormulario(){
@@ -299,5 +308,7 @@ public class PrestamosForma extends JFrame {
         String titulo = libro.getTitulo();
         return  titulo;
     }
+
+
 }
 
