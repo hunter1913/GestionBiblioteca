@@ -22,6 +22,7 @@ public class DevolucionesForma extends JFrame{
     private IDevolucionServicio devolucionServicio;
     private IPrestamoServicio prestamoServicio;
     private Integer idDevolucion;
+    private Integer idPrestamo;
     private PrestamosForma prestamosForma;
 
 
@@ -32,9 +33,8 @@ public class DevolucionesForma extends JFrame{
         this.prestamosForma = prestamosForma;
         iniciarForma();
         menuPrinciapalButton.addActionListener(e -> menuPrincipal());
-        buscarButton.addActionListener(e -> buscarDevolucionPorId());
+        buscarButton.addActionListener(e -> buscarPrestamoPorId());
     }
-
 
     private void createUIComponents() {
         this.tablaModeloDevoluciones = new DefaultTableModel(0, 3) {
@@ -79,19 +79,18 @@ public class DevolucionesForma extends JFrame{
         MenuForma menuForma = new MenuForma();
         menuForma.iniciarForma();
         menuForma.setVisible(true);
-
     }
 
-    private void buscarDevolucionPorId(){
+    private void buscarPrestamoPorId(){
         this.tablaModeloDevoluciones.setRowCount(0);
-        var idDevolucionEntrada = JOptionPane.showInputDialog("Digite el id de la devolucion");
-        this.idDevolucion = Integer.parseInt(idDevolucionEntrada);
-        var devolucion = devolucionServicio.buscarDevolucionesPorId(this.idDevolucion);
-        if (devolucion != null) {
+        var idPrestamoEntrada = JOptionPane.showInputDialog("Digite el id del prestamo");
+        this.idPrestamo = Integer.parseInt(idPrestamoEntrada);
+        var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+        if (prestamo != null) {
             Object[] renglonLibro = {
-                    devolucion.getIdDevolucion(),
-                    devolucion.getIdPrestamo(),
-                    devolucion.getIdLibro(),
+                    prestamo.getIdPrestamo(),
+                    prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
+                    prestamosForma.cambiarIdPorNombreSocio(prestamo.getId_socio()),
             };
             this.tablaModeloDevoluciones.addRow(renglonLibro);
         }
@@ -109,6 +108,4 @@ public class DevolucionesForma extends JFrame{
         //Desleccionamos el registro seleccionado de la tabla
         this.prestamosDevolucionesTabla.getSelectionModel().clearSelection();
     }
-
-
 }
