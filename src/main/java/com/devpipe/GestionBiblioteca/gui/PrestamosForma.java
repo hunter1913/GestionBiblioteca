@@ -59,13 +59,13 @@ public class PrestamosForma extends JFrame {
     }
 
     private void createUIComponents() {
-            this.tablaModeloPrestamos = new DefaultTableModel(0, 5) {
+            this.tablaModeloPrestamos = new DefaultTableModel(0, 4) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Fecha Devolucion ","Socio", "Libro", "Disponibilidad"};
+            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Fecha Devolucion ","Socio", "Libro"};
             this.tablaModeloPrestamos.setColumnIdentifiers(cabeceros);
             this.prestamosTabla = new JTable(tablaModeloPrestamos);
             //Restringimos la seleccion de la tabla a un solo registro
@@ -84,7 +84,8 @@ public class PrestamosForma extends JFrame {
                             prestamo.getIdPrestamo(),
                             formatoFecha(prestamo.getFechaPrestamo()),
                             formatoFecha(prestamo.getFechaDevolucion()),
-                            prestamo.getId_socio(),
+                            cambiarIdPorNombreSocio(prestamo.getId_socio()),
+//                            prestamo.getId_socio(),
                             prestamo.getLibroIdLibro(),
                             };
                     this.tablaModeloPrestamos.addRow(renglonPrestamo);
@@ -269,6 +270,15 @@ public class PrestamosForma extends JFrame {
         menuForma.iniciarForma();
         menuForma.setVisible(true);
 
+    }
+
+    private String cambiarIdPorNombreSocio(Integer id){
+        Integer idSocio = id;
+        Socio socio = socioServicio.buscarSocioPorId(idSocio);
+        String nombre = socio.getNombre();
+        String apellido = socio.getApellido();
+        String nombreCompleto = nombre + " " + apellido;
+        return nombreCompleto;
     }
 }
 
