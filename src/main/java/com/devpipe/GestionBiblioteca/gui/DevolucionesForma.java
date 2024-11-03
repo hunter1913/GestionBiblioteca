@@ -131,16 +131,14 @@ public class DevolucionesForma extends JFrame{
 
     private void devolverLibro(){
            var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
-           prestamoServicio.eliminarPrestamo(prestamo);
+           prestamo.setEstado("Inactivo");
+           prestamoServicio.guardarPrestamo(prestamo);
            this.idLibro = prestamo.getLibroIdLibro();
            var libro = libroServicio.buscarLibroPorId(idLibro);
            var cantidad = libro.getCantidad();
            cantidad = cantidad +1;
            libro.setCantidad(cantidad);
            libroServicio.guardarLibro(libro);
-
-
-
            mostrarTodos();
            mostrarMensaje("Devolucion exitosa");
 

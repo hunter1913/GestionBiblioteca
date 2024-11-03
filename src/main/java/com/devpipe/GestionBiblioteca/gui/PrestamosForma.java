@@ -189,6 +189,7 @@ public class PrestamosForma extends JFrame {
         prestamo.setFechaDevolucion(fechaDevolucion);
         prestamo.setId_socio(codigoSocio);
         prestamo.setLibroIdLibro(codigoLibro);
+        prestamo.setEstado("Activo");
         Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
 
         this.prestamoServicio.guardarPrestamo(prestamo);

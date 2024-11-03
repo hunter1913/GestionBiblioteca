@@ -22,6 +22,7 @@ public class Prestamo {
     private Date fechaDevolucion;
     private Integer id_socio;
     private Integer libroIdLibro;
+    private String estado;
 
 //    @ManyToOne
 //    @JoinColumn(name = "id_socio")
