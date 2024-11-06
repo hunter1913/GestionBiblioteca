@@ -47,18 +47,19 @@ public class DevolucionesForma extends JFrame{
                 cargarPrestamoSeleccionado();
             }
         });
+        fechaDevolucionTexto.setColumns(10);
         fechaDevolucionTexto.setText(prestamosForma.cargarFecha());
     }
 
     private void createUIComponents() {
-        this.tablaModeloDevoluciones = new DefaultTableModel(0, 3) {
+        this.tablaModeloDevoluciones = new DefaultTableModel(0, 5) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        String[] cabeceros = {"id Prestamo", "Libro", "Socio"};
+        String[] cabeceros = {"id Prestamo", "Libro", "Socio", "Fecha Prestamo", "Fecha devolucion"};
         this.tablaModeloDevoluciones.setColumnIdentifiers(cabeceros);
         this.prestamosDevolucionesTabla = new JTable(tablaModeloDevoluciones);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -70,7 +71,7 @@ public class DevolucionesForma extends JFrame{
     private void iniciarForma(){
         setContentPane(devolucionesPrincipal);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900,700);
+        setSize(800,800);
         setLocationRelativeTo(null);//centra ventana
     }
 
