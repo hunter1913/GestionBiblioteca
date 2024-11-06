@@ -80,7 +80,8 @@ public class PrestamosForma extends JFrame {
         var prestamos = this.prestamoServicio.listarPrestamo();
 
         prestamos.forEach(prestamo -> {
-            Object[] renglonPrestamo = {
+            if(prestamo.getEstado().equals("Activo")){
+                Object[] renglonPrestamo = {
                             prestamo.getIdPrestamo(),
                             formatoFecha(prestamo.getFechaPrestamo()),
                             formatoFecha(prestamo.getFechaDevolucion()),
@@ -90,6 +91,7 @@ public class PrestamosForma extends JFrame {
 //                            prestamo.getLibroIdLibro(),
                             };
                     this.tablaModeloPrestamos.addRow(renglonPrestamo);
+            }
         });
 
 
@@ -103,7 +105,7 @@ public class PrestamosForma extends JFrame {
             fechaPrestamoTexto.setText(cargarFecha());
         }
 
-        private String cargarFecha(){
+        public String cargarFecha(){
             Date fecha = new Date();
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
             return formatoFecha.format(fecha);

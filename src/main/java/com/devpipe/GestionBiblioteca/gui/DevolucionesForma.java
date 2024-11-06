@@ -17,6 +17,7 @@ public class DevolucionesForma extends JFrame{
     private JButton menuPrinciapalButton;
     private JButton actualizarButton;
     private JButton devolverLibroButton;
+    private JTextField fechaDevolucionTexto;
     private DefaultTableModel tablaModeloDevoluciones;
     private IDevolucionServicio devolucionServicio;
     private IPrestamoServicio prestamoServicio;
@@ -46,6 +47,7 @@ public class DevolucionesForma extends JFrame{
                 cargarPrestamoSeleccionado();
             }
         });
+        fechaDevolucionTexto.setText(prestamosForma.cargarFecha());
     }
 
     private void createUIComponents() {
@@ -56,7 +58,7 @@ public class DevolucionesForma extends JFrame{
             }
         };
 
-        String[] cabeceros = {"id Prestamo", "id Libro", "Socio"};
+        String[] cabeceros = {"id Prestamo", "Libro", "Socio"};
         this.tablaModeloDevoluciones.setColumnIdentifiers(cabeceros);
         this.prestamosDevolucionesTabla = new JTable(tablaModeloDevoluciones);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -76,13 +78,15 @@ public class DevolucionesForma extends JFrame{
         this.tablaModeloDevoluciones.setRowCount(0);
         var prestamos = this.prestamoServicio.listarPrestamo();
         prestamos.forEach(prestamo -> {
-            Object[] renglonDevolucion = {
-                prestamo.getIdPrestamo(),
-                prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
-                prestamosForma.cambiarIdPorNombreSocio(prestamo.getId_socio()),
+            if(prestamo.getEstado().equals("Activo")) {
+                Object[] renglonDevolucion = {
+                        prestamo.getIdPrestamo(),
+                        prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
+                        prestamosForma.cambiarIdPorNombreSocio(prestamo.getId_socio()),
 
-               };
-            this.tablaModeloDevoluciones.addRow(renglonDevolucion);
+                };
+                this.tablaModeloDevoluciones.addRow(renglonDevolucion);
+            }
         });
     }
 
@@ -129,18 +133,22 @@ public class DevolucionesForma extends JFrame{
         listarPrestamos();
     }
 
-    private void devolverLibro(){
-           var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
-           prestamo.setEstado("Inactivo");
-           prestamoServicio.guardarPrestamo(prestamo);
-           this.idLibro = prestamo.getLibroIdLibro();
-           var libro = libroServicio.buscarLibroPorId(idLibro);
-           var cantidad = libro.getCantidad();
-           cantidad = cantidad +1;
-           libro.setCantidad(cantidad);
-           libroServicio.guardarLibro(libro);
-           mostrarTodos();
-           mostrarMensaje("Devolucion exitosa");
+    private void devolverLibro() {
+            var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+            if (prestamo.getEstado().equals("Activo")) {
+                prestamo.setEstado("Inactivo");
+                prestamoServicio.guardarPrestamo(prestamo);
+                this.idLibro = prestamo.getLibroIdLibro();
+                var libro = libroServicio.buscarLibroPorId(idLibro);
+                var cantidad = libro.getCantidad();
+                cantidad = cantidad + 1;
+                libro.setCantidad(cantidad);
+                libroServicio.guardarLibro(libro);
+                mostrarMensaje("Devolucion exitosa");
+                mostrarTodos();
+
+            } else
+                mostrarMensaje("El prestamo no esta activo");
 
     }
 
