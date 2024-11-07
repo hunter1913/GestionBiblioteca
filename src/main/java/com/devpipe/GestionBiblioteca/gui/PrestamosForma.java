@@ -109,9 +109,9 @@ public class PrestamosForma extends JFrame {
             Date fecha = new Date();
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
             return formatoFecha.format(fecha);
-    }
+        }
 
-    private String formatoFecha(Date fecha){
+    public String formatoFecha(Date fecha){
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         return formatoFecha.format(fecha);
     }

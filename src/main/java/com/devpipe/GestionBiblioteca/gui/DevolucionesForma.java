@@ -59,7 +59,7 @@ public class DevolucionesForma extends JFrame{
             }
         };
 
-        String[] cabeceros = {"id Prestamo", "Libro", "Socio", "Fecha Prestamo", "Fecha devolucion"};
+        String[] cabeceros = {"id Prestamo", "Libro", "Socio", "Fecha Prestamo", "Devolucion Prevista"};
         this.tablaModeloDevoluciones.setColumnIdentifiers(cabeceros);
         this.prestamosDevolucionesTabla = new JTable(tablaModeloDevoluciones);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -71,7 +71,7 @@ public class DevolucionesForma extends JFrame{
     private void iniciarForma(){
         setContentPane(devolucionesPrincipal);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,800);
+        setSize(900,800);
         setLocationRelativeTo(null);//centra ventana
     }
 
@@ -84,7 +84,8 @@ public class DevolucionesForma extends JFrame{
                         prestamo.getIdPrestamo(),
                         prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
                         prestamosForma.cambiarIdPorNombreSocio(prestamo.getId_socio()),
-
+                        prestamosForma.formatoFecha(prestamo.getFechaPrestamo()),
+                        prestamosForma.formatoFecha(prestamo.getFechaDevolucion()),
                 };
                 this.tablaModeloDevoluciones.addRow(renglonDevolucion);
             }
@@ -108,6 +109,8 @@ public class DevolucionesForma extends JFrame{
                     prestamo.getIdPrestamo(),
                     prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
                     prestamosForma.cambiarIdPorNombreSocio(prestamo.getId_socio()),
+                    prestamosForma.formatoFecha(prestamo.getFechaPrestamo()),
+                    prestamosForma.formatoFecha(prestamo.getFechaDevolucion()),
             };
             this.tablaModeloDevoluciones.addRow(renglonLibro);
         }
