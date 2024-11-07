@@ -147,12 +147,8 @@ public class DevolucionesForma extends JFrame{
     }
 
     private void devolverLibro()  {
-
-
-            var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+         var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
             if (prestamo.getEstado().equals("Activo")) {
-
-
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     this.fechaDevolucionReal = date.parse(this.fechaDevolucionTexto.getText());
@@ -171,11 +167,14 @@ public class DevolucionesForma extends JFrame{
                 libroServicio.guardarLibro(libro);
                 mostrarMensaje("Devolucion exitosa");
                 if (dias > 0) {
-                    mostrarMensaje("Se genero una multa por  " + dias + " Dias de retraso");
+                    mostrarMensaje("Se genero una multa por " + dias + " Dias de retraso");
+
+
+
+
                 }else
                     mostrarMensaje("No se han generado multas");
                 mostrarTodos();
-
             } else
                 mostrarMensaje("El prestamo no esta activo");
     }
