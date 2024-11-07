@@ -107,12 +107,12 @@ public class PrestamosForma extends JFrame {
 
         public String cargarFecha(){
             Date fecha = new Date();
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
             return formatoFecha.format(fecha);
         }
 
     public String formatoFecha(Date fecha){
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         return formatoFecha.format(fecha);
     }
 
@@ -148,7 +148,7 @@ public class PrestamosForma extends JFrame {
 
     private void guardarPrestamo(){
         Integer codigoSocio = Integer.parseInt(codigoSocioTexto.getText());
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         if (fechaPrestamoTexto.getText().equals("")) {
             mostrarMensaje("Proporciona una fecha de prestamo");
             fechaPrestamoTexto.requestFocusInWindow();

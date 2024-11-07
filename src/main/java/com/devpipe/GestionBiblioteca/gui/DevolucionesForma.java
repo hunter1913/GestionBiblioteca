@@ -8,6 +8,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Date;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Component
 public class DevolucionesForma extends JFrame{
@@ -27,6 +34,8 @@ public class DevolucionesForma extends JFrame{
     private Integer idLibro;
     private Integer idSocio;
     private PrestamosForma prestamosForma;
+    private Date fechaDevolucionPrevista;
+    private Date fechaDevolucionReal;
 
 
     @Autowired
@@ -137,9 +146,21 @@ public class DevolucionesForma extends JFrame{
         listarPrestamos();
     }
 
-    private void devolverLibro() {
+    private void devolverLibro()  {
+
+
             var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
             if (prestamo.getEstado().equals("Activo")) {
+
+
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    this.fechaDevolucionReal = date.parse(this.fechaDevolucionTexto.getText());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                int milisecondsByDay = 86400000;
+                int dias = (int)((fechaDevolucionReal.getTime()-fechaDevolucionPrevista.getTime())/milisecondsByDay);
                 prestamo.setEstado("Inactivo");
                 prestamoServicio.guardarPrestamo(prestamo);
                 this.idLibro = prestamo.getLibroIdLibro();
@@ -149,14 +170,17 @@ public class DevolucionesForma extends JFrame{
                 libro.setCantidad(cantidad);
                 libroServicio.guardarLibro(libro);
                 mostrarMensaje("Devolucion exitosa");
+                if (dias > 0) {
+                    mostrarMensaje("Se genero una multa por  " + dias + " Dias de retraso");
+                }else
+                    mostrarMensaje("No se han generado multas");
                 mostrarTodos();
 
             } else
                 mostrarMensaje("El prestamo no esta activo");
-
     }
 
-    private void cargarPrestamoSeleccionado(){
+    private void cargarPrestamoSeleccionado()  {
         var renglon = prestamosDevolucionesTabla.getSelectedRow();
         if (renglon != -1); // significa que no se selecciono ningun registro
         var id = prestamosDevolucionesTabla.getModel().getValueAt(renglon, 0).toString();
@@ -164,5 +188,14 @@ public class DevolucionesForma extends JFrame{
         var prestamo = prestamoServicio.buscarPrestamoPorId(idPrestamo);
         this.idLibro = prestamo.getLibroIdLibro();
         this.idSocio = prestamo.getId_socio();
+        var fechaDevPrevista = prestamosDevolucionesTabla.getModel().getValueAt(renglon,4).toString();
+//        this.fechaDevolucionPrevista = LocalDate.parse(fechaDevPrevista);
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            this.fechaDevolucionPrevista = date.parse(fechaDevPrevista);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
