@@ -23,7 +23,7 @@ public class Socio {
     private String apellido;
     private String direccion;
     private String email;
-    private Integer telefono;
+    private String telefono;
 
 //
 //    @OneToMany

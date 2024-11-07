@@ -109,7 +109,7 @@ public class SociosForma extends JFrame{
         var direccion = direccionTexto.getText();
         var email = emailTexto.getText();
 
-        var telefono = Integer.parseInt(telefonoTexto.getText());
+        var telefono = telefonoTexto.getText();
 
 //        var socio = new Socio(this.idSocio, nombre, apellido, direccion, email, telefono);
         Socio socio = new Socio();
