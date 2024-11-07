@@ -7,6 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 @Component
 public class MenuForma extends JFrame{
@@ -15,7 +17,7 @@ public class MenuForma extends JFrame{
     private JButton librosButton;
     private JButton prestamosFormaButton;
     private JButton devolucionesButton;
-    private JButton button3;
+    private JButton mutlaButton;
     private String[] args = new String[0];
 
     @Autowired
@@ -28,6 +30,7 @@ public class MenuForma extends JFrame{
 
         prestamosFormaButton.addActionListener(e -> prestamosForm(args));
         devolucionesButton.addActionListener(e -> devolucionesForm(args));
+        mutlaButton.addActionListener(e -> multasForm(args));
     }
     public void iniciarForma() {
         setContentPane(menuPrincipal);
@@ -81,6 +84,20 @@ public class MenuForma extends JFrame{
             DevolucionesForma devolucionesForma = contextoSpring.getBean(DevolucionesForma.class);
             devolucionesForma.setVisible(true);
         });
+
+    }
+
+    private void multasForm(String[] args){
+        dispose();
+        ConfigurableApplicationContext contextoSpring = new SpringApplicationBuilder(GestionBibliotecaSwing.class)
+                .headless(false)
+                .web(WebApplicationType.NONE)
+                .run(args);
+        SwingUtilities.invokeLater(() -> {
+            MultasForma multasForma = contextoSpring.getBean(MultasForma.class);
+            multasForma.setVisible(true);
+        });
+
     }
  }
 

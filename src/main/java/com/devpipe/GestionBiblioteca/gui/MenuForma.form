@@ -128,7 +128,7 @@
               <text value="DEVOLUCIONES"/>
             </properties>
           </component>
-          <component id="98d9c" class="javax.swing.JButton" binding="button3" default-binding="true">
+          <component id="98d9c" class="javax.swing.JButton" binding="mutlaButton">
             <constraints>
               <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

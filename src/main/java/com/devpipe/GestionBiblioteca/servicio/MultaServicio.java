@@ -1,9 +1,6 @@
 package com.devpipe.GestionBiblioteca.servicio;
-
 import com.devpipe.GestionBiblioteca.modelo.Multa;
-import com.devpipe.GestionBiblioteca.modelo.Socio;
 import com.devpipe.GestionBiblioteca.repositorio.MultaRepositorio;
-import com.devpipe.GestionBiblioteca.repositorio.SocioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
