@@ -24,7 +24,4 @@ public class Multa {
     private Integer idSocio;
     private Integer idDevolucion;
 
-
-
-
 }
