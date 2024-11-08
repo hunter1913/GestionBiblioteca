@@ -169,7 +169,6 @@ public class DevolucionesForma extends JFrame{
                 cantidad = cantidad + 1;
                 libro.setCantidad(cantidad);
                 libroServicio.guardarLibro(libro);
-                mostrarMensaje("Devolucion exitosa");
 
                 // Guardamos la devolucion
 
@@ -180,7 +179,7 @@ public class DevolucionesForma extends JFrame{
                 devolucion.setFechaDevolucionReal(fechaDevolucionReal);
                 this.devolucionServicio.guardarDevolucion(devolucion);
                 if  (this.idDevolucion == null)
-                    mostrarMensaje("Se registro la devolucion ");
+                    mostrarMensaje("Devolucion exitosa");
                 else
                     mostrarMensaje("Se actualizo la devolucion ");
 
