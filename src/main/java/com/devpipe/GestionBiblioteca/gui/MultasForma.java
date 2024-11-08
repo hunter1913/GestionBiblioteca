@@ -64,7 +64,6 @@ public class MultasForma extends JFrame{
         MenuForma menuForma = new MenuForma();
         menuForma.iniciarForma();
         menuForma.setVisible(true);
-
     }
 
     private void createUIComponents() {

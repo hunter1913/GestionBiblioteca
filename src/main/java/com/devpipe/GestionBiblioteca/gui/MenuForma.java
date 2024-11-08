@@ -18,6 +18,7 @@ public class MenuForma extends JFrame{
     private JButton prestamosFormaButton;
     private JButton devolucionesButton;
     private JButton mutlaButton;
+    private JButton reservasButton;
     private String[] args = new String[0];
 
     @Autowired
@@ -31,6 +32,7 @@ public class MenuForma extends JFrame{
         prestamosFormaButton.addActionListener(e -> prestamosForm(args));
         devolucionesButton.addActionListener(e -> devolucionesForm(args));
         mutlaButton.addActionListener(e -> multasForm(args));
+        reservasButton.addActionListener(e -> reservasForm(args));
     }
     public void iniciarForma() {
         setContentPane(menuPrincipal);
@@ -96,6 +98,19 @@ public class MenuForma extends JFrame{
         SwingUtilities.invokeLater(() -> {
             MultasForma multasForma = contextoSpring.getBean(MultasForma.class);
             multasForma.setVisible(true);
+        });
+
+    }
+
+    private void reservasForm(String[] args){
+        dispose();
+        ConfigurableApplicationContext contextoSpring = new SpringApplicationBuilder(GestionBibliotecaSwing.class)
+                .headless(false)
+                .web(WebApplicationType.NONE)
+                .run(args);
+        SwingUtilities.invokeLater(() -> {
+            ReservasForma reservasForma = contextoSpring.getBean(ReservasForma.class);
+            reservasForma.setVisible(true);
         });
 
     }

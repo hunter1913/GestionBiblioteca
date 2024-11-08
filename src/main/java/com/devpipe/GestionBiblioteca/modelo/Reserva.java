@@ -18,7 +18,9 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReserva;
-    private Date fechaReserva = new Date();
-    private String disponibilidad;
+    private Date fechaReserva;
+    private Integer idLibro;
+    private Integer idSocio;
+    private String estadoReserva;
 
 }
