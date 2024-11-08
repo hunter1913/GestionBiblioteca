@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 @Component
@@ -94,7 +96,7 @@ public class MultasForma extends JFrame{
                         prestamosForma.cambiarIdPorNombreLibro(multa.getIdLibro()),
                         multa.getIdDevolucion(),
                         multa.getDias_mora(),
-                        multa.getMonto(),
+                        formatoMoneda(multa.getMonto()),
                         multa.getEstado(),
                 };
                 this.tablaModeloMultas.addRow(renglonSocio);
@@ -164,7 +166,7 @@ public class MultasForma extends JFrame{
                         prestamosForma.cambiarIdPorNombreLibro(multa.getIdLibro()),
                         multa.getIdDevolucion(),
                         multa.getDias_mora(),
-                        multa.getMonto(),
+                        formatoMoneda(multa.getMonto()),
                         multa.getEstado(),
                 };
                 this.tablaModeloMultas.addRow(renglonSocio);
@@ -185,7 +187,7 @@ public class MultasForma extends JFrame{
                         prestamosForma.cambiarIdPorNombreLibro(multa.getIdLibro()),
                         multa.getIdDevolucion(),
                         multa.getDias_mora(),
-                        multa.getMonto(),
+                        formatoMoneda(multa.getMonto()),
                         multa.getEstado(),
                 };
                 this.tablaModeloMultas.addRow(renglonLibro);
@@ -195,6 +197,13 @@ public class MultasForma extends JFrame{
         else mostrarMensaje("Multa no encontrada");
         limpiarFormulario();
 
+    }
+
+    private String formatoMoneda(Integer monto){
+        NumberFormat monedaFormato = NumberFormat.getCurrencyInstance(new Locale("es","CO"));
+        monedaFormato.setMaximumFractionDigits(0);
+        String formatoMoneda = monedaFormato.format(monto);
+        return formatoMoneda;
     }
 
     }
