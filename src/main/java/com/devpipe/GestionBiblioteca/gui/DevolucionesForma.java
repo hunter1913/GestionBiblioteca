@@ -162,8 +162,10 @@ public class DevolucionesForma extends JFrame{
                 }
                 int milisecondsByDay = 86400000;
                 int dias = (int)((fechaDevolucionReal.getTime()-fechaDevolucionPrevista.getTime())/milisecondsByDay);
+                //Cambiar estado del prestamo
                 prestamo.setEstado("Inactivo");
                 prestamoServicio.guardarPrestamo(prestamo);
+                // se descuenta la unidad en el inventario
                 this.idLibro = prestamo.getLibroIdLibro();
                 var libro = libroServicio.buscarLibroPorId(idLibro);
                 var cantidad = libro.getCantidad();
@@ -183,7 +185,7 @@ public class DevolucionesForma extends JFrame{
                 if  (this.idDevolucion == null)
                     mostrarMensaje("Se registro la devolucion ");
                 else
-                    mostrarMensaje("Se actualizo el socio");
+                    mostrarMensaje("Se actualizo la devolucion ");
 
                 if (dias > 0) {
                     //Guardamos la multa
