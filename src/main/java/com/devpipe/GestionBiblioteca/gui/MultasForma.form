@@ -31,7 +31,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="28b5b" class="javax.swing.JTable" binding="multasTabla">
+              <component id="28b5b" class="javax.swing.JTable" binding="multasTabla" custom-create="true">
                 <constraints/>
                 <properties/>
               </component>

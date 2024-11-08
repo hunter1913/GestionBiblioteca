@@ -1,5 +1,7 @@
 package com.devpipe.GestionBiblioteca.gui;
 
+import com.devpipe.GestionBiblioteca.modelo.Devolucion;
+import com.devpipe.GestionBiblioteca.modelo.Multa;
 import com.devpipe.GestionBiblioteca.servicio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,7 @@ public class DevolucionesForma extends JFrame{
     private IDevolucionServicio devolucionServicio;
     private IPrestamoServicio prestamoServicio;
     private ILibroServicio libroServicio;
+    private IMultaServicio multaServicio;
     private Integer idDevolucion;
     private Integer idPrestamo;
     private Integer idLibro;
@@ -38,12 +41,14 @@ public class DevolucionesForma extends JFrame{
     private Date fechaDevolucionReal;
 
 
+
     @Autowired
-    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma, LibroServicio libroServicio){
+    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma, LibroServicio libroServicio, MultaServicio multasServicio){
         this.devolucionServicio = devolucionServicio;
         this.prestamoServicio = prestamoServicio;
         this.prestamosForma = prestamosForma;
         this.libroServicio = libroServicio;
+        this.multaServicio = multasServicio;
         iniciarForma();
         menuPrinciapalButton.addActionListener(e -> menuPrincipal());
         buscarButton.addActionListener(e -> buscarPrestamoPorId());
@@ -166,12 +171,33 @@ public class DevolucionesForma extends JFrame{
                 libro.setCantidad(cantidad);
                 libroServicio.guardarLibro(libro);
                 mostrarMensaje("Devolucion exitosa");
+
+                // Guardamos la devolucion
+
+                Devolucion devolucion = new Devolucion();
+                devolucion.setIdDevolucion(this.idDevolucion);
+                devolucion.setIdPrestamo(this.idPrestamo);
+                devolucion.setIdLibro(this.idLibro);
+                devolucion.setFechaDevolucionReal(fechaDevolucionReal);
+                this.devolucionServicio.guardarDevolucion(devolucion);
+                if  (this.idDevolucion == null)
+                    mostrarMensaje("Se registro la devolucion ");
+                else
+                    mostrarMensaje("Se actualizo el socio");
+
                 if (dias > 0) {
-                    mostrarMensaje("Se genero una multa por " + dias + " Dias de retraso");
-
-
-
-
+                    //Guardamos la multa
+                    Multa multa = new Multa();
+                    Integer monto = dias * 500;
+                    mostrarMensaje("Se genero una multa de: " + monto + " por " + dias + " dias de mora");
+                    var estado = "Pendiente";
+                    multa.setEstado(estado);
+                    multa.setMonto(monto);
+                    multa.setIdSocio(this.idSocio);
+                    multa.setIdLibro(this.idLibro);
+                    multa.setIdDevolucion(devolucion.getIdDevolucion());
+                    multa.setDias_mora(dias);
+                    multaServicio.guardarMulta(multa);
                 }else
                     mostrarMensaje("No se han generado multas");
                 mostrarTodos();
@@ -188,7 +214,6 @@ public class DevolucionesForma extends JFrame{
         this.idLibro = prestamo.getLibroIdLibro();
         this.idSocio = prestamo.getId_socio();
         var fechaDevPrevista = prestamosDevolucionesTabla.getModel().getValueAt(renglon,4).toString();
-//        this.fechaDevolucionPrevista = LocalDate.parse(fechaDevPrevista);
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.fechaDevolucionPrevista = date.parse(fechaDevPrevista);
@@ -196,5 +221,11 @@ public class DevolucionesForma extends JFrame{
             throw new RuntimeException(e);
         }
 
+
     }
+
+
+
+
+
 }

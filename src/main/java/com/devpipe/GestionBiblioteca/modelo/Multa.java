@@ -23,5 +23,6 @@ public class Multa {
     private Integer idLibro;
     private Integer idSocio;
     private Integer idDevolucion;
+    private Integer dias_mora;
 
 }
