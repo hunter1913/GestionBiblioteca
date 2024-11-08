@@ -14,6 +14,6 @@ public interface ILibroServicio {
 
     public void eliminarLibro(Libro libro);
 
-    public List<Libro> buscarLibroPorDisponibilidad(String disponinbilidad);
+//    public List<Libro> buscarLibroPorDisponibilidad(String disponinbilidad);
 
 }

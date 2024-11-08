@@ -68,7 +68,7 @@ public class LibrosForma extends JFrame{
             }
         };
 
-        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Disponibilidad", "Total Libros"};
+        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Reserva Disponible", "Total Libros"};
         this.tablaModeloLibros.setColumnIdentifiers(cabeceros);
         this.librosTabla = new JTable(tablaModeloLibros);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -90,7 +90,7 @@ public class LibrosForma extends JFrame{
                     libro.getAnoPublicacion(),
                     libro.getNumeroPaginas(),
                     libro.getIsbn(),
-                    libro.getDisponibilidad(),
+                    libro.getDisponibilidadReserva(),
                     libro.getCantidad(),
             };
             this.tablaModeloLibros.addRow(renglonLibro);
@@ -121,8 +121,8 @@ public class LibrosForma extends JFrame{
 
         var cantidad = Integer.parseInt(cantidadTexto.getText());
         if (cantidad > 0){
-            var disponibilidad = "Si";
-            var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidad, cantidad);
+            Integer disponibilidadReserva = null;
+            var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidadReserva, cantidad);
             this.libroServicio.guardarLibro(libro);
         }else
             mostrarMensaje("Cantidad debe ser mayor a 0");

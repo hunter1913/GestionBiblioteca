@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface LibroRepositorio extends JpaRepository<Libro,Integer> {
 
-    @Query("SELECT u FROM Libro u WHERE u.disponibilidad = :disponibilidad")
-    List<Libro> buscarLibroPorDisponibilidad(@Param("disponibilidad")String disponibilidad);
+//    @Query("SELECT u FROM Libro u WHERE u.disponibilidad = :disponibilidad")
+//    List<Libro> buscarLibroPorDisponibilidad(@Param("disponibilidad")String disponibilidad);
 
 }

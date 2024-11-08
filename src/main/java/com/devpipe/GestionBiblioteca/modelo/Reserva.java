@@ -23,4 +23,5 @@ public class Reserva {
     private Integer idSocio;
     private String estadoReserva;
 
+
 }

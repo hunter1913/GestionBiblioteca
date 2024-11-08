@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -33,6 +32,7 @@ public class ReservasForma extends JFrame{
     private String estadoReserva;
     private Integer idLibro;
     private Integer idSocio;
+    private Integer librosDisponibles;
 
 
     @Autowired
