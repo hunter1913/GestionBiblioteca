@@ -203,4 +203,7 @@ public class MultasForma extends JFrame{
         return formatoMoneda;
     }
 
+
+
+
     }
