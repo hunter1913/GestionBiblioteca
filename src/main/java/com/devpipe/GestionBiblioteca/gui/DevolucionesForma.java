@@ -5,18 +5,15 @@ import com.devpipe.GestionBiblioteca.modelo.Multa;
 import com.devpipe.GestionBiblioteca.servicio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
 import java.util.Date;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+
 
 @Component
 public class DevolucionesForma extends JFrame{
@@ -224,10 +221,5 @@ public class DevolucionesForma extends JFrame{
         }
 
 
-    }
-
-
-
-
-
+   }
 }
