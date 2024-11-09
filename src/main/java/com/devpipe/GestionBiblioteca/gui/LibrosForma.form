@@ -206,10 +206,11 @@
         <children>
           <component id="aff41" class="javax.swing.JButton" binding="guardarButton" default-binding="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Guardar"/>
+              <icon value="icons/guardar2.png"/>
+              <text value=""/>
             </properties>
           </component>
           <vspacer id="6fc6b">

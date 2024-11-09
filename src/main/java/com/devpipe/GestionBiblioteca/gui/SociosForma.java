@@ -47,6 +47,9 @@ public class SociosForma extends JFrame{
         eliminarButton.addActionListener(e -> eliminarSocio());
         limpiarButton.addActionListener(e -> limpiarFormulario());
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
+        guardarButton.addMouseListener(new MouseAdapter() {
+
+        });
     }
 
 
