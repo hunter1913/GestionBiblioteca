@@ -114,8 +114,10 @@ public class MultasForma extends JFrame{
         this.idDevolucion = Integer.parseInt(idDevolucionEnt);
         var diasMoraEnt = multasTabla.getModel().getValueAt(renglon, 4).toString();
         this.diasMora = Integer.parseInt(diasMoraEnt);
-        var montoEnt = multasTabla.getModel().getValueAt(renglon, 5).toString();
-        this.monto = Integer.parseInt(montoEnt);
+        var multa1 = multaServicio.buscarMultaPorId(this.idMulta);
+        var monto1 = multa1.getMonto();
+
+        this.monto = monto1;
         var estadoEnt = multasTabla.getModel().getValueAt(renglon, 6).toString();
         this.estado = estadoEnt;
     }
@@ -202,6 +204,7 @@ public class MultasForma extends JFrame{
         String formatoMoneda = monedaFormato.format(monto);
         return formatoMoneda;
     }
+
 
 
 

@@ -43,7 +43,7 @@ public class PrestamosForma extends JFrame {
         iniciarForma();
         fechaPrestamoTexto.addContainerListener(new ContainerAdapter() {
         });
-//        registrarButton.addActionListener(e -> registrarPrestamo());
+        registrarButton.addActionListener(e -> registrarPrestamo());
 
         prestamosTabla.addMouseListener(new MouseAdapter() {
             @Override
@@ -116,35 +116,40 @@ public class PrestamosForma extends JFrame {
         return formatoFecha.format(fecha);
     }
 
-//    private void registrarPrestamo(){
-//        Integer codigoSocio = Integer.parseInt(codigoSocioTexto.getText());
-//        Integer codigoLibro = Integer.parseInt(codigoLibroTexto.getText());
-//        Socio socio = socioServicio.buscarSocioPorId(codigoSocio);
-//        Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
-//
-//        if (socio != null && libro != null){
-////            String disponibilidad = "Si";
-//            List<Libro> librosDisponibles;
-//            librosDisponibles=libroServicio.buscarLibroPorDisponibilidad(disponibilidad);
-//            librosDisponibles.forEach(libro1 -> {
-//                if (libro1.getIdLibro().equals(codigoLibro)) {
-//                      this.confirmacion = true;
-//                      guardarPrestamo();
-//                    limpiarFormulario();
-//                    listarPrestamos();
-//                }
-//            });
-//            if (this.confirmacion == false){
-//                mostrarMensaje("Libro no disponible");
-//            }
-//        }else
-//            if (socio == null){
-//                mostrarMensaje("Socio no existente, ingrese un socio valido");
-//            }
-//            if (libro == null){
-//                 mostrarMensaje("Libro no existente, ingrese un libro valido");
-//        }
-//    }
+    private void registrarPrestamo(){
+        Integer codigoSocio = Integer.parseInt(codigoSocioTexto.getText());
+        Integer codigoLibro = Integer.parseInt(codigoLibroTexto.getText());
+        Socio socio = socioServicio.buscarSocioPorId(codigoSocio);
+        Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
+        if (socio != null && libro != null){
+            List<Libro> librosDisponibles;
+            librosDisponibles=libroServicio.listarLibros();
+            librosDisponibles.forEach(libro1 -> {
+                if (libro1.getIdLibro().equals(codigoLibro)) {
+                    if (libro1.getCantidad() > 0) {
+                       this.confirmacion = true;
+                        guardarPrestamo();
+                        Integer cantidad;
+                        cantidad = libro1.getCantidad();
+                        cantidad = cantidad -1;
+                        libro1.setCantidad(cantidad);
+                        libroServicio.guardarLibro(libro1);
+                        limpiarFormulario();
+                        listarPrestamos();
+                    }
+                }
+            });
+                if (this.confirmacion == false){
+                    mostrarMensaje("Libro no disponible, reserva el libro para prestamo");
+                }
+        }else
+                if (socio == null){
+                    mostrarMensaje("Socio no existente, ingrese un socio valido");
+                 }
+                if (libro == null){
+                    mostrarMensaje("Libro no existente, ingrese un libro valido");
+                }
+    }
 
     private void guardarPrestamo(){
         Integer codigoSocio = Integer.parseInt(codigoSocioTexto.getText());

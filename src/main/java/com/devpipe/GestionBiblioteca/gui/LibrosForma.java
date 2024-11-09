@@ -121,7 +121,7 @@ public class LibrosForma extends JFrame{
 
         var cantidad = Integer.parseInt(cantidadTexto.getText());
         if (cantidad > 0){
-            Integer disponibilidadReserva = null;
+            Integer disponibilidadReserva = 0;
             var libro = new Libro(this.idLibro, titulo, autor, genero, editorial, anoPublicacion, paginas, isbn, disponibilidadReserva, cantidad);
             this.libroServicio.guardarLibro(libro);
         }else

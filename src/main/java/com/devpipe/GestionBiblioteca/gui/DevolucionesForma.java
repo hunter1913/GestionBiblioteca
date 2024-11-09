@@ -2,6 +2,7 @@ package com.devpipe.GestionBiblioteca.gui;
 
 import com.devpipe.GestionBiblioteca.modelo.Devolucion;
 import com.devpipe.GestionBiblioteca.modelo.Multa;
+import com.devpipe.GestionBiblioteca.modelo.Reserva;
 import com.devpipe.GestionBiblioteca.servicio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 
 
 @Component
@@ -36,16 +38,18 @@ public class DevolucionesForma extends JFrame{
     private PrestamosForma prestamosForma;
     private Date fechaDevolucionPrevista;
     private Date fechaDevolucionReal;
+    private IReservaServicio reservaServicio;
 
 
 
     @Autowired
-    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma, LibroServicio libroServicio, MultaServicio multasServicio){
+    public DevolucionesForma(DevolucionServicio devolucionServicio, PrestamoServicio prestamoServicio, PrestamosForma prestamosForma, LibroServicio libroServicio, MultaServicio multasServicio, ReservaServicio reservaServicio){
         this.devolucionServicio = devolucionServicio;
         this.prestamoServicio = prestamoServicio;
         this.prestamosForma = prestamosForma;
         this.libroServicio = libroServicio;
         this.multaServicio = multasServicio;
+        this.reservaServicio = reservaServicio;
         iniciarForma();
         menuPrinciapalButton.addActionListener(e -> menuPrincipal());
         buscarButton.addActionListener(e -> buscarPrestamoPorId());
@@ -149,8 +153,11 @@ public class DevolucionesForma extends JFrame{
     }
 
     private void devolverLibro()  {
-         var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+            boolean confirmacionReserva;
+            var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
+            this.idLibro = prestamo.getLibroIdLibro();
             if (prestamo.getEstado().equals("Activo")) {
+                //Se obtienen las fechas y se formatea
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     this.fechaDevolucionReal = date.parse(this.fechaDevolucionTexto.getText());
@@ -162,15 +169,25 @@ public class DevolucionesForma extends JFrame{
                 //Cambiar estado del prestamo
                 prestamo.setEstado("Inactivo");
                 prestamoServicio.guardarPrestamo(prestamo);
-                // se descuenta la unidad en el inventario
-                this.idLibro = prestamo.getLibroIdLibro();
-                var libro = libroServicio.buscarLibroPorId(idLibro);
-                var cantidad = libro.getCantidad();
-                cantidad = cantidad + 1;
-                libro.setCantidad(cantidad);
-                libroServicio.guardarLibro(libro);
 
-                // Guardamos la devolucion
+                //Verificamos si existe alguna reserva para este libro
+
+                List<Reserva> listaReservas;
+                listaReservas =  reservaServicio.listarReservas();
+                List<Reserva> librosReservados = new ArrayList<>();
+                listaReservas.forEach(reserva -> {
+                    if(reserva.getIdLibro().equals(this.idLibro)){
+                        librosReservados.add(reserva);
+                    }
+                });
+                if (librosReservados != null){
+
+                    sumarDisponibilidadReserva();
+                    cambiarEstadoReserva(librosReservados);
+
+                }else
+                    sumarUnidadInventarioLibro();
+
 
                 Devolucion devolucion = new Devolucion();
                 devolucion.setIdDevolucion(this.idDevolucion);
@@ -218,7 +235,44 @@ public class DevolucionesForma extends JFrame{
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void sumarUnidadInventarioLibro(){
+        var libro = this.libroServicio.buscarLibroPorId(this.idLibro);
+        var cantidad = libro.getCantidad();
+        cantidad = cantidad + 1;
+        libro.setCantidad(cantidad);
+        this.libroServicio.guardarLibro(libro);
+    }
+
+    private void sumarDisponibilidadReserva(){
+        var libro = this.libroServicio.buscarLibroPorId(this.idLibro);
+        var cantidad = libro.getDisponibilidadReserva();
+        if (cantidad == null){
+            cantidad = 0;
+        }
+        cantidad = cantidad + 1;
+        libro.setDisponibilidadReserva(cantidad);
+        this.libroServicio.guardarLibro(libro);
+    }
+
+    private void cambiarEstadoReserva(List<Reserva> librosReservados){
+
+        var libro = libroServicio.buscarLibroPorId(this.idLibro);
+
+        librosReservados.forEach(reserva -> {
+         Integer disponibilidad = libro.getDisponibilidadReserva();
+         if(reserva.getIdLibro().equals(this.idLibro) && disponibilidad > 0){
+             reserva.setEstadoReserva("Listo para prestamo");
+             reservaServicio.guardarReserva(reserva);
+             disponibilidad = disponibilidad -1;
+             libro.setDisponibilidadReserva(disponibilidad);
+             libroServicio.guardarLibro(libro);
+         }
 
 
-   }
+        });
+
+
+    }
+
 }
