@@ -54,18 +54,17 @@ public class PrestamosForma extends JFrame {
         });
         buscarButton.addActionListener(e -> buscarPrestamoPorId());
         limpiarButton.addActionListener(e -> mostrarTodos());
-        eliminarButton.addActionListener(e -> eliminarPrestamo());
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
     }
 
     private void createUIComponents() {
-            this.tablaModeloPrestamos = new DefaultTableModel(0, 4) {
+            this.tablaModeloPrestamos = new DefaultTableModel(0, 5) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Fecha Devolucion ","Socio", "Libro"};
+            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Devolucion Prevista","Socio", "Libro", "Estado"};
             this.tablaModeloPrestamos.setColumnIdentifiers(cabeceros);
             this.prestamosTabla = new JTable(tablaModeloPrestamos);
             //Restringimos la seleccion de la tabla a un solo registro
@@ -80,15 +79,14 @@ public class PrestamosForma extends JFrame {
         var prestamos = this.prestamoServicio.listarPrestamo();
 
         prestamos.forEach(prestamo -> {
-            if(prestamo.getEstado().equals("Activo")){
+            if(prestamo.getEstado().equals("Pendiente")){
                 Object[] renglonPrestamo = {
                             prestamo.getIdPrestamo(),
                             formatoFecha(prestamo.getFechaPrestamo()),
                             formatoFecha(prestamo.getFechaDevolucion()),
                             cambiarIdPorNombreSocio(prestamo.getId_socio()),
                             cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
-//                            prestamo.getId_socio(),
-//                            prestamo.getLibroIdLibro(),
+                            prestamo.getEstado(),
                             };
                     this.tablaModeloPrestamos.addRow(renglonPrestamo);
             }
@@ -196,7 +194,7 @@ public class PrestamosForma extends JFrame {
         prestamo.setFechaDevolucion(fechaDevolucion);
         prestamo.setId_socio(codigoSocio);
         prestamo.setLibroIdLibro(codigoLibro);
-        prestamo.setEstado("Activo");
+        prestamo.setEstado("Pendiente");
         Libro libro = libroServicio.buscarLibroPorId(codigoLibro);
 
         this.prestamoServicio.guardarPrestamo(prestamo);
@@ -258,8 +256,9 @@ public class PrestamosForma extends JFrame {
                     prestamo.getIdPrestamo(),
                     formatoFecha(prestamo.getFechaPrestamo()),
                     formatoFecha(prestamo.getFechaDevolucion()),
-                    prestamo.getId_socio(),
-                    prestamo.getLibroIdLibro(),
+                    cambiarIdPorNombreSocio(prestamo.getId_socio()),
+                    cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
+                    prestamo.getEstado(),
             };
             this.tablaModeloPrestamos.addRow(renglonLibro);
         }
@@ -267,21 +266,7 @@ public class PrestamosForma extends JFrame {
         limpiarFormulario();
     }
 
-    private void eliminarPrestamo(){
-        var renglon = prestamosTabla.getSelectedRow();
-        if (renglon != -1 ){
-            var idPretaeStr = prestamosTabla.getModel().getValueAt(renglon,0).toString();
-            this.idPrestamo = Integer.parseInt(idPretaeStr);
-            var prestamo = new Prestamo();
-            prestamo.setIdPrestamo(this.idPrestamo);
-            prestamoServicio.eliminarPrestamo(prestamo);
-            mostrarMensaje("Libro con id " + this.idPrestamo + " eliminado");
-            limpiarFormulario();
-            listarPrestamos();
-        }
-        else
-            mostrarMensaje("Debe Seleccionar un libro a eliminar");
-    }
+
     private void mostrarTodos(){
         limpiarFormulario();
         listarPrestamos();

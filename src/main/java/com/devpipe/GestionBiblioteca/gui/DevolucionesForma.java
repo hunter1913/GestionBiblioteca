@@ -94,7 +94,7 @@ public class DevolucionesForma extends JFrame{
         this.tablaModeloDevoluciones.setRowCount(0);
         var prestamos = this.prestamoServicio.listarPrestamo();
         prestamos.forEach(prestamo -> {
-            if(prestamo.getEstado().equals("Activo")) {
+            if(prestamo.getEstado().equals("Pendiente")) {
                 Object[] renglonDevolucion = {
                         prestamo.getIdPrestamo(),
                         prestamosForma.cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
@@ -156,7 +156,7 @@ public class DevolucionesForma extends JFrame{
 
             var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
             this.idLibro = prestamo.getLibroIdLibro();
-            if (prestamo.getEstado().equals("Activo")) {
+            if (prestamo.getEstado().equals("Pendiente")) {
                 //Se obtienen las fechas y se formatea
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 try {
@@ -167,7 +167,7 @@ public class DevolucionesForma extends JFrame{
                 int milisecondsByDay = 86400000;
                 int dias = (int)((fechaDevolucionReal.getTime()-fechaDevolucionPrevista.getTime())/milisecondsByDay);
                 //Cambiar estado del prestamo
-                prestamo.setEstado("Inactivo");
+                prestamo.setEstado("Devuelto");
                 prestamoServicio.guardarPrestamo(prestamo);
 
                 //Verificamos si existe alguna reserva para este libro
