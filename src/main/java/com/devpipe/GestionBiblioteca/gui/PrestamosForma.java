@@ -203,9 +203,7 @@ public class PrestamosForma extends JFrame {
         Integer cantidad = libro.getCantidad();
         cantidad = cantidad -1;
         libro.setCantidad(cantidad);
-//        if(cantidad <= 0){
-//            libro.setDisponibilidad("No");
-//        }
+
         libroServicio.guardarLibro(libro);
         if  (this.idPrestamo == null)
             mostrarMensaje("Se agrego el nuevo prestamo ");

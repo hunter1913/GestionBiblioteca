@@ -188,7 +188,6 @@ public class DevolucionesForma extends JFrame{
                 }else
                     sumarUnidadInventarioLibro();
 
-
                 Devolucion devolucion = new Devolucion();
                 devolucion.setIdDevolucion(this.idDevolucion);
                 devolucion.setIdPrestamo(this.idPrestamo);
@@ -268,11 +267,12 @@ public class DevolucionesForma extends JFrame{
              libro.setDisponibilidadReserva(disponibilidad);
              libroServicio.guardarLibro(libro);
          }
-
-
         });
 
 
     }
+
+
+
 
 }
