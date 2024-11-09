@@ -1,14 +1,15 @@
 package com.devpipe.GestionBiblioteca.gui;
 
+import com.devpipe.GestionBiblioteca.modelo.Prestamo;
 import com.devpipe.GestionBiblioteca.modelo.Reserva;
+import com.devpipe.GestionBiblioteca.servicio.IPrestamoServicio;
 import com.devpipe.GestionBiblioteca.servicio.IReservaServicio;
+import com.devpipe.GestionBiblioteca.servicio.PrestamoServicio;
 import com.devpipe.GestionBiblioteca.servicio.ReservaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -33,12 +34,14 @@ public class ReservasForma extends JFrame{
     private Integer idLibro;
     private Integer idSocio;
     private Integer librosDisponibles;
+    IPrestamoServicio prestamoServicio;
 
 
     @Autowired
-    public ReservasForma(ReservaServicio reservaServicio, PrestamosForma prestamosForma) {
+    public ReservasForma(ReservaServicio reservaServicio, PrestamosForma prestamosForma, PrestamoServicio prestamoServicio) {
         this.reservaServicio = reservaServicio;
         this.prestamosForma = prestamosForma;
+        this.prestamoServicio = prestamoServicio;
         iniciarForma();
 
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
@@ -51,6 +54,7 @@ public class ReservasForma extends JFrame{
             }
         });
         registrarReservaButton.addActionListener(e -> guardarReserva());
+        hacerPrestamoButton.addActionListener(e -> hacerPrestamo());
     }
 
     private void iniciarForma(){
@@ -89,15 +93,17 @@ public class ReservasForma extends JFrame{
         this.tablaModeloReservas.setRowCount(0);
         var reservas = this.reservaServicio.listarReservas();
         reservas.forEach(reserva -> {
-                      Object[] renglonReserva = {
+            var estado = reserva.getEstadoReserva();
+            if (!estado.equals("En prestamo")) {
+                Object[] renglonReserva = {
                         reserva.getIdReserva(),
-                             formatoFecha(reserva.getFechaReserva()),
-                              prestamosForma.cambiarIdPorNombreLibro(reserva.getIdLibro()),
-                              prestamosForma.cambiarIdPorNombreSocio(reserva.getIdSocio()),
-                              reserva.getEstadoReserva(),
+                        formatoFecha(reserva.getFechaReserva()),
+                        prestamosForma.cambiarIdPorNombreLibro(reserva.getIdLibro()),
+                        prestamosForma.cambiarIdPorNombreSocio(reserva.getIdSocio()),
+                        reserva.getEstadoReserva(),
                 };
                 this.tablaModeloReservas.addRow(renglonReserva);
-
+            }
         });
     }
 
@@ -110,9 +116,11 @@ public class ReservasForma extends JFrame{
         this.fechaReservaTexto.setText(fechaReserva);
         var reserva = reservaServicio.buscarReservaPorId(this.idReserva);
         Integer updateCodigoLibro = reserva.getIdLibro();
+        this.idLibro = updateCodigoLibro;
         String codigoLibroCadena = String.valueOf(updateCodigoLibro);
         this.libroTexto.setText(codigoLibroCadena);
         Integer updateCodigoSocio = reserva.getIdSocio();
+        this.idSocio = updateCodigoSocio;
         String codigoSocioCadena = String.valueOf(updateCodigoSocio);
         this.socioTexto.setText(codigoSocioCadena);
     }
@@ -132,8 +140,36 @@ public class ReservasForma extends JFrame{
         reserva.setEstadoReserva(this.estadoReserva);
         this.reservaServicio.guardarReserva(reserva);
         listarReservas();
+        limpiarFormulario();
+    }
+
+    private void hacerPrestamo(){
+            var fechaPrestamoEntrada = cargarFecha();
+            var fechaPrestamo = formatoTipoFecha(fechaPrestamoEntrada);
+            var fechaDevolucionEntrada = JOptionPane.showInputDialog("Ingrese Fecha de devolucion yyyy-MM-dd");
+            var fechaDevolucion = formatoTipoFecha(fechaDevolucionEntrada);
+            Prestamo prestamo = new Prestamo();
+            prestamo.setIdPrestamo(null);
+            prestamo.setFechaPrestamo(fechaPrestamo);
+            prestamo.setFechaDevolucion(fechaDevolucion);
+            prestamo.setId_socio(this.idSocio);
+            prestamo.setLibroIdLibro(this.idLibro);
+            prestamo.setEstado("Activo");
+            prestamoServicio.guardarPrestamo(prestamo);
+            mostrarMensaje("Se registro el prestamo satisfactoriamente");
+        cambiarEstadoReserva();
+        listarReservas();
+        limpiarFormulario();
+        }
+
+    private void cambiarEstadoReserva(){
+        var reserva = reservaServicio.buscarReservaPorId(this.idReserva);
+        reserva.setEstadoReserva("En prestamo");
+        reservaServicio.guardarReserva(reserva);
 
     }
+
+
 
     private Date formatoTipoFecha(String fecha){
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -147,9 +183,32 @@ public class ReservasForma extends JFrame{
         return fechaFormatiada;
     }
 
-    public String formatoFecha(Date fecha){
+    private String formatoFecha(Date fecha){
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         return formatoFecha.format(fecha);
+    }
+
+    private void mostrarMensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    private String cargarFecha(){
+        Date fecha = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        return formatoFecha.format(fecha);
+    }
+
+    private void limpiarFormulario(){
+        fechaReservaTexto.setText(cargarFecha());
+        libroTexto.setText("");
+        socioTexto.setText("");
+
+        //Limpiamos el id del socio libro y reseva seleccionado
+        this.idReserva = null;
+        this.idLibro = null;
+        this.idSocio = null;
+        //Desleccionamos el registro seleccionado de la tabla
+        this.reservasTabla.getSelectionModel().clearSelection();
     }
 
 }

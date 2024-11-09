@@ -153,7 +153,7 @@ public class DevolucionesForma extends JFrame{
     }
 
     private void devolverLibro()  {
-            boolean confirmacionReserva;
+
             var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
             this.idLibro = prestamo.getLibroIdLibro();
             if (prestamo.getEstado().equals("Activo")) {
@@ -174,20 +174,20 @@ public class DevolucionesForma extends JFrame{
 
                 List<Reserva> listaReservas;
                 listaReservas =  reservaServicio.listarReservas();
+
+
                 List<Reserva> librosReservados = new ArrayList<>();
                 listaReservas.forEach(reserva -> {
-                    if(reserva.getIdLibro().equals(this.idLibro)){
+                    if(reserva.getIdLibro().equals(this.idLibro)  && reserva.getEstadoReserva().equals("Pendiente")){
                         librosReservados.add(reserva);
                     }
                 });
-                if (librosReservados != null){
-
+                if (librosReservados.isEmpty()){
+                    sumarUnidadInventarioLibro();
+                }else {
                     sumarDisponibilidadReserva();
                     cambiarEstadoReserva(librosReservados);
-
-                }else
-                    sumarUnidadInventarioLibro();
-
+                }
                 Devolucion devolucion = new Devolucion();
                 devolucion.setIdDevolucion(this.idDevolucion);
                 devolucion.setIdPrestamo(this.idPrestamo);
@@ -260,7 +260,7 @@ public class DevolucionesForma extends JFrame{
 
         librosReservados.forEach(reserva -> {
          Integer disponibilidad = libro.getDisponibilidadReserva();
-         if(reserva.getIdLibro().equals(this.idLibro) && disponibilidad > 0){
+         if(reserva.getIdLibro().equals(this.idLibro) && disponibilidad > 0 ){
              reserva.setEstadoReserva("Listo para prestamo");
              reservaServicio.guardarReserva(reserva);
              disponibilidad = disponibilidad -1;

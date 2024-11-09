@@ -68,7 +68,7 @@ public class LibrosForma extends JFrame{
             }
         };
 
-        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Reserva Disponible", "Total Libros"};
+        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Libros Reservados", "Total Libros"};
         this.tablaModeloLibros.setColumnIdentifiers(cabeceros);
         this.librosTabla = new JTable(tablaModeloLibros);
         //Restringimos la seleccion de la tabla a un solo registro
