@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -24,12 +26,12 @@ public class LibrosForma extends JFrame{
     private JTextField anoTexto;
     private JTextField numeroPaginasTexto;
     private JButton guardarButton;
-    private JButton buscarButton;
     private JButton eliminarButton;
     private JButton limpiarButton;
     private JButton menuPrincipalButton;
     private JButton mostrarTodosButton;
     private JTextField cantidadTexto;
+    private JButton buscarButton;
     ILibroServicio libroServicio;
     private DefaultTableModel tablaModeloLibros;
     private Integer idLibro;
@@ -46,11 +48,12 @@ public class LibrosForma extends JFrame{
                 cargarLibroSeleccionado();
             }
         });
-        buscarButton.addActionListener(e -> buscarLibroPorId());
-        limpiarButton.addActionListener(e -> limpiarFormulario());
+//        buscarButton.addActionListener(e -> buscarLibroPorId());
+//        limpiarButton.addActionListener(e -> limpiarFormulario());
         eliminarButton.addActionListener(e -> eliminarLibro());
         mostrarTodosButton.addActionListener(e -> mostrarTodos());
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
+        buscarButton.addActionListener(e -> buscarLibroPorId());
     }
 
     private void iniciarForma(){
@@ -58,6 +61,7 @@ public class LibrosForma extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,900);
         setLocationRelativeTo(null);//centra ventana
+        cargarBotones();
     }
 
     private void createUIComponents() {
@@ -68,7 +72,7 @@ public class LibrosForma extends JFrame{
             }
         };
 
-        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Libros Reservados", "Total Libros"};
+        String[] cabeceros = {"id", "Titulo", "Autor", "Genero", "Editorial", "Año Publicacion", "# Paginas", "ISBN", "Libros Reservados", "Cantidad"};
         this.tablaModeloLibros.setColumnIdentifiers(cabeceros);
         this.librosTabla = new JTable(tablaModeloLibros);
         //Restringimos la seleccion de la tabla a un solo registro
@@ -225,5 +229,18 @@ public class LibrosForma extends JFrame{
         menuForma.iniciarForma();
         menuForma.setVisible(true);
 
+    }
+
+    private void cargarBotones(){
+        String guardar = "Guardar";
+        String buscar = "Buscar";
+        String eliminar = "Eliminar";
+        String actualizar = "Actualizar";
+        String menuPrincipal = "Menu Principal";
+        guardarButton.setToolTipText(guardar);
+        buscarButton.setToolTipText("Buscar");
+        eliminarButton.setToolTipText(eliminar);
+        mostrarTodosButton.setToolTipText(actualizar);
+        menuPrincipalButton.setToolTipText(menuPrincipal);
     }
 }
