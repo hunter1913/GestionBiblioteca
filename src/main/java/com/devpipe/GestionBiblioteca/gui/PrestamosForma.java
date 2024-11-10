@@ -34,6 +34,7 @@ public class PrestamosForma extends JFrame {
     ISocioServicio socioServicio;
     ILibroServicio libroServicio;
     boolean confirmacion = false;
+    private Integer idSocio;
 
     @Autowired
     public PrestamosForma(PrestamoServicio prestamoServicio, SocioServicio socioServicio, LibroServicio libroservicio) {
@@ -52,7 +53,7 @@ public class PrestamosForma extends JFrame {
                 cargarPrestamoSeleccionado();
             }
         });
-        buscarButton.addActionListener(e -> buscarPrestamoPorId());
+        buscarButton.addActionListener(e -> buscarPrestamos());
         limpiarButton.addActionListener(e -> mostrarTodos());
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
     }
@@ -64,7 +65,7 @@ public class PrestamosForma extends JFrame {
                 return false;
             }
         };
-            String[] cabeceros = {"id Prestamo", "Fecha Prestamo", "Devolucion Prevista","Socio", "Libro", "Estado"};
+            String[] cabeceros = {"Prestamo", "Fecha Prestamo", "Devolucion Prevista","Socio", "Libro", "Estado"};
             this.tablaModeloPrestamos.setColumnIdentifiers(cabeceros);
             this.prestamosTabla = new JTable(tablaModeloPrestamos);
             //Restringimos la seleccion de la tabla a un solo registro
@@ -98,7 +99,7 @@ public class PrestamosForma extends JFrame {
         private void iniciarForma() {
             setContentPane(prestamosPrincipal);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setSize(900, 800);
+            setSize(1000, 800);
             setLocationRelativeTo(null);//centra ventana
             fechaPrestamoTexto.setText(cargarFecha());
         }
@@ -246,6 +247,37 @@ public class PrestamosForma extends JFrame {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+
+    private void buscarPrestamos(){
+        String message = "¿Quieres continuar?";
+        // Título de la ventana
+        String title = "Confirmación";
+        // Opciones que aparecerán en el cuadro de diálogo
+        String[] options = {"Bucar por Prestamo", "Buscar por Usuario"};
+
+        // Mostrar el cuadro de diálogo y obtener la opción seleccionada
+        int response = JOptionPane.showOptionDialog(
+                null, // Componente padre, null muestra en el centro de la pantalla
+                message, // Mensaje
+                title, // Título
+                JOptionPane.YES_NO_OPTION, // Tipo de opciones (Sí o No)
+                JOptionPane.QUESTION_MESSAGE, // Tipo de mensaje
+                null, // Icono personalizado (null usa el predeterminado)
+                options, // Opciones personalizadas
+                options[0] // Opción predeterminada seleccionada
+        );
+
+        // Manejar la respuesta del usuario
+        if (response == JOptionPane.YES_OPTION) {
+            buscarPrestamoPorId();
+        } else if (response == JOptionPane.NO_OPTION) {
+            buscarSocioPorId();
+        } else {
+            System.out.println("Diálogo cerrado sin respuesta");
+        }
+
+    }
+
     private void buscarPrestamoPorId(){
         this.tablaModeloPrestamos.setRowCount(0);
         var idPrestEnt = JOptionPane.showInputDialog("Digite el id del prestamo");
@@ -266,6 +298,33 @@ public class PrestamosForma extends JFrame {
         limpiarFormulario();
     }
 
+
+    private void buscarSocioPorId(){
+        this.tablaModeloPrestamos.setRowCount(0);
+        var idSocioEnt = JOptionPane.showInputDialog("Digite el id Socio");
+        this.idSocio = Integer.parseInt(idSocioEnt);
+        var socio = socioServicio.buscarSocioPorId(this.idSocio);
+        var prestamos = prestamoServicio.listarPrestamo();
+        if (socio != null) {
+            prestamos.forEach(prestamo -> {
+                if (prestamo.getId_socio().equals(socio.getIdSocio())) {
+                    Object[] renglonLibro = {
+                            prestamo.getIdPrestamo(),
+                            formatoFecha(prestamo.getFechaPrestamo()),
+                            formatoFecha(prestamo.getFechaDevolucion()),
+                            cambiarIdPorNombreSocio(prestamo.getId_socio()),
+                            cambiarIdPorNombreLibro(prestamo.getLibroIdLibro()),
+                            prestamo.getEstado(),
+                    };
+                    this.tablaModeloPrestamos.addRow(renglonLibro);
+                } else
+                    mostrarMensaje("No se encontraron prestamos para este socio");
+                limpiarFormulario();
+
+            });
+        }else
+            mostrarMensaje("No se encontraron prestamos para este socio");
+    }
 
     private void mostrarTodos(){
         limpiarFormulario();
@@ -293,6 +352,8 @@ public class PrestamosForma extends JFrame {
         String titulo = libro.getTitulo();
         return  titulo;
     }
+
+
 
 
 }
