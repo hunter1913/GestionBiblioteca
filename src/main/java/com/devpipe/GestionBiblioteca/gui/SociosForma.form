@@ -67,8 +67,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="18" style="1"/>
-              <foreground color="-1048580"/>
+              <font name="Courier New" size="14" style="1"/>
+              <foreground color="-1"/>
               <text value="Nombre"/>
             </properties>
           </component>
@@ -79,8 +79,8 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-1048580"/>
-              <font name="Courier New" size="18" style="1"/>
+              <background color="-1"/>
+              <font name="Courier New" size="12" style="1"/>
               <foreground color="-16777216"/>
             </properties>
           </component>
@@ -89,8 +89,8 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="18" style="1"/>
-              <foreground color="-1048580"/>
+              <font name="Courier New" size="14" style="1"/>
+              <foreground color="-1"/>
               <text value="Direccion"/>
             </properties>
           </component>
@@ -99,8 +99,8 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="18" style="1"/>
-              <foreground color="-1048580"/>
+              <font name="Courier New" size="14" style="1"/>
+              <foreground color="-1"/>
               <text value="Email"/>
             </properties>
           </component>
@@ -111,8 +111,8 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-1048580"/>
-              <font name="Courier New" size="18" style="1"/>
+              <background color="-1"/>
+              <font name="Courier New" size="12" style="1"/>
               <foreground color="-16777216"/>
             </properties>
           </component>
@@ -121,8 +121,8 @@
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="18" style="1"/>
-              <foreground color="-1048580"/>
+              <font name="Courier New" size="14" style="1"/>
+              <foreground color="-4"/>
               <text value="Telefono"/>
             </properties>
           </component>
@@ -133,8 +133,8 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-1048580"/>
-              <font name="Courier New" size="18" style="1"/>
+              <background color="-1"/>
+              <font name="Courier New" size="12" style="1"/>
               <foreground color="-16777216"/>
               <text value=""/>
             </properties>
@@ -144,8 +144,8 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="18" style="1"/>
-              <foreground color="-1048580"/>
+              <font name="Courier New" size="14" style="1"/>
+              <foreground color="-1"/>
               <text value="Apellido"/>
             </properties>
           </component>
@@ -156,8 +156,8 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-1048580"/>
-              <font name="Courier New" size="18" style="1"/>
+              <background color="-1"/>
+              <font name="Courier New" size="12" style="1"/>
               <foreground color="-16777216"/>
             </properties>
           </component>
@@ -168,8 +168,8 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-1048580"/>
-              <font name="Courier New" size="18" style="1"/>
+              <background color="-1"/>
+              <font name="Courier New" size="12" style="1"/>
               <foreground color="-16777216"/>
             </properties>
           </component>
