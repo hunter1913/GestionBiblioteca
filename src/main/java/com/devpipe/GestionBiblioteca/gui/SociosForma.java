@@ -22,7 +22,7 @@ public class SociosForma extends JFrame{
     private JTextField telefonoTexto;
     private JButton guardarButton;
     private JButton eliminarButton;
-    private JButton limpiarButton;
+    private JButton actualizarButton;
     private JButton menuPrincipalButton;
     ISocioServicio socioServicio;
     private DefaultTableModel tablaModeloSocios;
@@ -45,11 +45,10 @@ public class SociosForma extends JFrame{
         });
         guardarButton.addActionListener(e -> guardarSocio());
         eliminarButton.addActionListener(e -> eliminarSocio());
-        limpiarButton.addActionListener(e -> limpiarFormulario());
+        actualizarButton.addActionListener(e -> limpiarFormulario());
         menuPrincipalButton.addActionListener(e -> menuPrincipal());
-        guardarButton.addMouseListener(new MouseAdapter() {
 
-        });
+
     }
 
 
@@ -59,16 +58,18 @@ public class SociosForma extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,800);
         setLocationRelativeTo(null);//centra ventana
+        cargarBotones();
+
     }
 
     private void createUIComponents() {
+
             this.tablaModeloSocios = new DefaultTableModel(0, 5) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-
         String[] cabeceros = {"id", "Nombre", "Apellido", "Direccion", "Email", "Telefono"};
         this.tablaModeloSocios.setColumnIdentifiers(cabeceros);
         this.sociosTabla = new JTable(tablaModeloSocios);
@@ -76,6 +77,7 @@ public class SociosForma extends JFrame{
         this.sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // Cargar listado de clientes
         listarSocios();
+
     }
 
     private void listarSocios(){
@@ -188,5 +190,17 @@ public class SociosForma extends JFrame{
         menuForma.setVisible(true);
 
     }
+
+    private void cargarBotones(){
+        String guardar = "Guardar";
+        String eliminar = "Eliminar";
+        String actualizar = "Actualizar";
+        String menuPrincipal = "Menu Principal";
+        guardarButton.setToolTipText(guardar);
+        eliminarButton.setToolTipText(eliminar);
+        actualizarButton.setToolTipText(actualizar);
+        menuPrincipalButton.setToolTipText(menuPrincipal);
+    }
+
 
 }
