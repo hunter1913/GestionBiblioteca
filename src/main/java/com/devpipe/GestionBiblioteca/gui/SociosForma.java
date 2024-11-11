@@ -58,7 +58,7 @@ public class SociosForma extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,800);
         setLocationRelativeTo(null);//centra ventana
-        cargarBotones();
+
 
     }
 
@@ -191,16 +191,7 @@ public class SociosForma extends JFrame{
 
     }
 
-    private void cargarBotones(){
-        String guardar = "Guardar";
-        String eliminar = "Eliminar";
-        String actualizar = "Actualizar";
-        String menuPrincipal = "Menu Principal";
-        guardarButton.setToolTipText(guardar);
-        eliminarButton.setToolTipText(eliminar);
-        actualizarButton.setToolTipText(actualizar);
-        menuPrincipalButton.setToolTipText(menuPrincipal);
-    }
+
 
 
 }

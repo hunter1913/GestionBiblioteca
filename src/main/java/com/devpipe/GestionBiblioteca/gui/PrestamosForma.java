@@ -239,6 +239,7 @@ public class PrestamosForma extends JFrame {
         codigoLibroTexto.setText("");
         //Limpiamos el id del socio seleccionado
         this.idPrestamo = null;
+        this.idSocio = null;
         //Desleccionamos el registro seleccionado de la tabla
         this.prestamosTabla.getSelectionModel().clearSelection();
     }
@@ -249,11 +250,11 @@ public class PrestamosForma extends JFrame {
 
 
     private void buscarPrestamos(){
-        String message = "¿Quieres continuar?";
+        String message = "Buscar por Prestamo o Socio";
         // Título de la ventana
         String title = "Confirmación";
         // Opciones que aparecerán en el cuadro de diálogo
-        String[] options = {"Bucar por Prestamo", "Buscar por Usuario"};
+        String[] options = {"Prestamo", "Socio"};
 
         // Mostrar el cuadro de diálogo y obtener la opción seleccionada
         int response = JOptionPane.showOptionDialog(
@@ -280,7 +281,7 @@ public class PrestamosForma extends JFrame {
 
     private void buscarPrestamoPorId(){
         this.tablaModeloPrestamos.setRowCount(0);
-        var idPrestEnt = JOptionPane.showInputDialog("Digite el id del prestamo");
+        var idPrestEnt = JOptionPane.showInputDialog("Digite el numero del prestamo");
         this.idPrestamo = Integer.parseInt(idPrestEnt);
         var prestamo = prestamoServicio.buscarPrestamoPorId(this.idPrestamo);
         if (prestamo != null) {
@@ -298,10 +299,9 @@ public class PrestamosForma extends JFrame {
         limpiarFormulario();
     }
 
-
     private void buscarSocioPorId(){
         this.tablaModeloPrestamos.setRowCount(0);
-        var idSocioEnt = JOptionPane.showInputDialog("Digite el id Socio");
+        var idSocioEnt = JOptionPane.showInputDialog("Digite el numero del socio");
         this.idSocio = Integer.parseInt(idSocioEnt);
         var socio = socioServicio.buscarSocioPorId(this.idSocio);
         var prestamos = prestamoServicio.listarPrestamo();
@@ -317,13 +317,11 @@ public class PrestamosForma extends JFrame {
                             prestamo.getEstado(),
                     };
                     this.tablaModeloPrestamos.addRow(renglonLibro);
-                } else
-                    mostrarMensaje("No se encontraron prestamos para este socio");
-                limpiarFormulario();
-
+                }
             });
         }else
             mostrarMensaje("No se encontraron prestamos para este socio");
+        limpiarFormulario();
     }
 
     private void mostrarTodos(){

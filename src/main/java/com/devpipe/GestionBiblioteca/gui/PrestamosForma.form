@@ -151,6 +151,7 @@
             <properties>
               <icon value="icons/guardar3.png"/>
               <text value=""/>
+              <toolTipText value="Guardar"/>
             </properties>
           </component>
           <component id="10e11" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
@@ -160,6 +161,7 @@
             <properties>
               <icon value="icons/buscar.png"/>
               <text value=""/>
+              <toolTipText value="Buscar"/>
             </properties>
           </component>
           <component id="dd561" class="javax.swing.JButton" binding="limpiarButton" default-binding="true">
@@ -169,6 +171,7 @@
             <properties>
               <icon value="icons/actualizar.png"/>
               <text value=""/>
+              <toolTipText value="Actualizar"/>
             </properties>
           </component>
           <component id="916be" class="javax.swing.JButton" binding="menuPrincipalButton" default-binding="true">
@@ -178,6 +181,7 @@
             <properties>
               <icon value="icons/Irainicio.png"/>
               <text value=""/>
+              <toolTipText value="Menu Principal"/>
             </properties>
           </component>
           <hspacer id="44f80">

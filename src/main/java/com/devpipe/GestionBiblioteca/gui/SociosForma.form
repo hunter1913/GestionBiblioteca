@@ -42,6 +42,7 @@
         <properties>
           <icon value="icons/Irainicio.png"/>
           <text value=""/>
+          <toolTipText value="Menu Princpal"/>
         </properties>
       </component>
       <component id="2023f" class="javax.swing.JLabel">
@@ -182,6 +183,7 @@
         <properties>
           <icon value="icons/guardar3.png"/>
           <text value=""/>
+          <toolTipText value="Guardar"/>
         </properties>
       </component>
       <component id="a440b" class="javax.swing.JButton" binding="eliminarButton">
@@ -191,6 +193,7 @@
         <properties>
           <icon value="icons/eliminar4.png"/>
           <text value=""/>
+          <toolTipText value="Eliminar"/>
         </properties>
       </component>
       <component id="7db76" class="javax.swing.JButton" binding="actualizarButton">
@@ -200,6 +203,7 @@
         <properties>
           <icon value="icons/actualizar.png"/>
           <text value=""/>
+          <toolTipText value="Actualizar"/>
         </properties>
       </component>
       <hspacer id="8f640">

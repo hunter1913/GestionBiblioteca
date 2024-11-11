@@ -26,6 +26,7 @@ public class DevolucionesForma extends JFrame{
     private JButton actualizarButton;
     private JButton devolverLibroButton;
     private JTextField fechaDevolucionTexto;
+    //    private JTextField fechaDevolucionTexto;
     private DefaultTableModel tablaModeloDevoluciones;
     private IDevolucionServicio devolucionServicio;
     private IPrestamoServicio prestamoServicio;

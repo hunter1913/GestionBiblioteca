@@ -44,6 +44,7 @@
               <hideActionText value="false"/>
               <icon value="icons/socios2.png"/>
               <text value=""/>
+              <toolTipText value="Administrar Socios"/>
             </properties>
           </component>
           <hspacer id="66bdf">
@@ -63,6 +64,7 @@
             <properties>
               <icon value="icons/libro.png"/>
               <text value=""/>
+              <toolTipText value="Administrar Libros"/>
             </properties>
           </component>
           <component id="7f372" class="javax.swing.JLabel">
@@ -97,6 +99,7 @@
             <properties>
               <icon value="icons/prestamos.png"/>
               <text value=""/>
+              <toolTipText value="Prestamos"/>
             </properties>
           </component>
           <component id="72640" class="javax.swing.JLabel">
@@ -116,6 +119,7 @@
             <properties>
               <icon value="icons/devoluciones.png"/>
               <text value=""/>
+              <toolTipText value="Devoluciones"/>
             </properties>
           </component>
           <component id="f4081" class="javax.swing.JLabel">
@@ -135,6 +139,7 @@
             <properties>
               <icon value="icons/multas.png"/>
               <text value=""/>
+              <toolTipText value="Multas"/>
             </properties>
           </component>
           <component id="c0068" class="javax.swing.JLabel">
@@ -174,6 +179,7 @@
             <properties>
               <icon value="icons/reservas.png"/>
               <text value=""/>
+              <toolTipText value="Reservas"/>
             </properties>
           </component>
           <component id="a673" class="javax.swing.JLabel">

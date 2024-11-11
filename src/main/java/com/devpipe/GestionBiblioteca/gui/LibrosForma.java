@@ -61,7 +61,7 @@ public class LibrosForma extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,900);
         setLocationRelativeTo(null);//centra ventana
-        cargarBotones();
+
     }
 
     private void createUIComponents() {
@@ -231,16 +231,5 @@ public class LibrosForma extends JFrame{
 
     }
 
-    private void cargarBotones(){
-        String guardar = "Guardar";
-        String buscar = "Buscar";
-        String eliminar = "Eliminar";
-        String actualizar = "Actualizar";
-        String menuPrincipal = "Menu Principal";
-        guardarButton.setToolTipText(guardar);
-        buscarButton.setToolTipText("Buscar");
-        eliminarButton.setToolTipText(eliminar);
-        mostrarTodosButton.setToolTipText(actualizar);
-        menuPrincipalButton.setToolTipText(menuPrincipal);
-    }
+
 }
